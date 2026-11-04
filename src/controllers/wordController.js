@@ -17,7 +17,7 @@ export async function listWords(req, res, next) {
         filters: ["level", "category", "pos"],
         sorts: { rank: { rank: 1, order: 1, en: 1 }, en: { en: 1 }, level: { level: 1, rank: 1 }, category: { category: 1, en: 1 } },
         defaultSort: "rank",
-        projection: "slug en az ipa category categoryAz level pos unit rank",
+        projection: "slug en az ipa category categoryAz level pos unit rank createdAt",
       }));
     }
     const filter = {};

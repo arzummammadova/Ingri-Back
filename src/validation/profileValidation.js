@@ -33,6 +33,7 @@ export const profileSchema = Joi.object({
   learningGoals: Joi.array().items(Joi.string().valid("travel", "work", "exams", "daily")).max(4),
   city: Joi.string().trim().max(60).allow(""),
   locale: Joi.string().valid("az", "en", "ru"),
+  gender: Joi.string().valid("female", "male", ""),
 }).min(1);
 
 export const presetSchema = Joi.object({

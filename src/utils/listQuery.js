@@ -33,6 +33,7 @@ export function buildListQuery(query, { search = [], filters = [], sorts = {}, d
     const rx = new RegExp(escapeRegex(q), "i");
     filter.$or = search.map((field) => ({ [field]: rx }));
   }
+  sorts = { newest: { createdAt: -1 }, ...sorts };
   const sortKey = sorts[query.sort] ? String(query.sort) : defaultSort;
   const dir = query.order === "desc" ? -1 : 1;
   const sort = { ...(sorts[sortKey] ? Object.fromEntries(Object.entries(sorts[sortKey]).map(([k, v]) => [k, v * dir])) : { order: dir }), _id: dir };

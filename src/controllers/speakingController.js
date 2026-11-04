@@ -5,7 +5,7 @@ const handlers = createContentHandlers(Speaking, {
   search: ["en", "az", "category", "categoryAz"],
   filters: ["level", "category"],
   sorts: { order: { order: 1 }, en: { en: 1 }, level: { level: 1, order: 1 }, category: { category: 1, order: 1 } },
-  projection: "slug en az category categoryAz level order",
+  projection: "slug en az category categoryAz level order createdAt",
 });
 export const listSpeaking = handlers.list;
 export const getSpeaking = handlers.getOne;

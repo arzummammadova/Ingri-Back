@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema(
     avatarType: { type: String, enum: ["preset", "upload", "none"], default: "preset" },
     avatarPreset: { type: String, default: "aysel" },
     avatarUrl: { type: String, default: "" },
+    gender: { type: String, enum: ["female", "male", ""], default: "" },
     role: { type: String, enum: ["user", "admin"], default: "user" },
     isVerified: { type: Boolean, default: false },
     verifyTokenHash: { type: String, select: false },

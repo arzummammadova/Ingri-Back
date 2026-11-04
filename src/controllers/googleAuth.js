@@ -93,9 +93,9 @@ export async function googleCallback(req, res) {
         levels: ["A1"],
         activeLevel: "A1",
         placementCompleted: false,
-        avatarType: profile.picture ? "upload" : "preset",
+        avatarType: profile.picture ? "upload" : "none",
         avatarUrl: profile.picture || "",
-        avatarPreset: "aysel",
+        avatarPreset: "",
         isVerified: true,
       });
       await Progress.create({ user: user._id, tasks: DEFAULT_TASKS });

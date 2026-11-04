@@ -82,7 +82,7 @@ export async function updateProfile(req, res, next) {
       req.user.username = req.body.username;
       req.user.name = req.body.username;
     }
-    const fields = ["name", "bio", "level", "learningGoals", "city", "locale"];
+    const fields = ["name", "bio", "level", "learningGoals", "city", "locale", "gender"];
     for (const field of fields) {
       if (req.body[field] !== undefined) req.user[field] = req.body[field];
     }

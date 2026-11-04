@@ -103,8 +103,9 @@ export async function register(req, res, next) {
         levels: [req.body.level || "A1"],
         activeLevel: req.body.level || "A1",
         placementCompleted: false,
-        avatarType: "preset",
-        avatarPreset: "aysel",
+        gender: req.body.gender || "",
+        avatarType: "none",
+        avatarPreset: "",
         verifyTokenHash: hashToken(raw),
         verifyTokenExpires: new Date(Date.now() + VERIFY_MS),
       });

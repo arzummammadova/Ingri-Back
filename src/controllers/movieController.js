@@ -5,7 +5,7 @@ const handlers = createContentHandlers(Movie, {
   search: ["title", "why", "whyAz"],
   filters: ["level"],
   sorts: { order: { order: 1 }, title: { title: 1 }, level: { level: 1, order: 1 }, year: { year: 1 } },
-  projection: "slug title year level why whyAz trailerId order",
+  projection: "slug title year level why whyAz trailerId order createdAt",
 });
 export const listMovies = handlers.list;
 export const getMovie = handlers.getOne;

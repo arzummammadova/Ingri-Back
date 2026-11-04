@@ -17,6 +17,7 @@ export const registerSchema = Joi.object({
   password,
   locale: Joi.string().valid("az", "en", "ru").default("az"),
   level: Joi.string().valid(...CEFR_LEVELS).default("A1"),
+  gender: Joi.string().valid("female", "male", "").default(""),
 });
 
 export const loginSchema = Joi.object({
