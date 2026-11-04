@@ -35,19 +35,43 @@ async function ensureOk(response, name) {
   throw error;
 }
 
-async function* gemini(system, history, signal) {
-  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`;
-  const response = await fetch(url, {
-    method: "POST",
-    signal,
-    headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: system }] },
-      contents: history.map((m) => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] })),
-      generationConfig: { temperature: 0.6, maxOutputTokens: 1024 },
-    }),
+const GEMINI_FALLBACKS = ["gemini-3.8-flash", "gemini-flash-latest", "gemini-flash-lite-latest"];
+const RETIRED_GEMINI = /^gemini-(1\.|2\.0|2\.5)/;
+
+/** Configured model first (unless retired), then current fallbacks; retries briefly on 404/429/503. */
+async function geminiResponse(system, history, signal) {
+  const configured = (process.env.GEMINI_MODEL || "").trim();
+  const models = [...new Set([configured && !RETIRED_GEMINI.test(configured) ? configured : null, ...GEMINI_FALLBACKS].filter(Boolean))];
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: system }] },
+    contents: history.map((m) => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] })),
+    generationConfig: { temperature: 0.6, maxOutputTokens: 1024 },
   });
+  let last;
+  for (const model of models) {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`;
+      const response = await fetch(url, {
+        method: "POST",
+        signal,
+        headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
+        body,
+      });
+      if (response.ok) return response;
+      last = response;
+      if (response.status === 503 || response.status === 429) {
+        await new Promise((r) => setTimeout(r, 700 * (attempt + 1)));
+        continue;
+      }
+      if (response.status === 404) break;
+      return response;
+    }
+  }
+  return last;
+}
+
+async function* gemini(system, history, signal) {
+  const response = await geminiResponse(system, history, signal);
   await ensureOk(response, "Gemini");
   for await (const data of readSse(response)) {
     try {
