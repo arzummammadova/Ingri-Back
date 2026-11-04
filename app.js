@@ -10,7 +10,7 @@ import connectDB from "./src/db/connectDB.js";
 import { swaggerSpec } from "./src/config/swagger.js";
 import { csrfProtection, ensureCsrf } from "./src/middleware/csrf.js";
 import { errorHandler, notFound } from "./src/middleware/errorMiddleware.js";
-import { authLimiter } from "./src/middleware/rateLimit.js";
+import { authLimiter, sessionLimiter } from "./src/middleware/rateLimit.js";
 import authRouter from "./src/routers/authRouter.js";
 import podcastRouter from "./src/routers/podcastRouter.js";
 import grammarRouter from "./src/routers/grammarRouter.js";
@@ -76,7 +76,9 @@ app.get("/api/health", (_req, res) => res.json({ ok: true }));
 app.use("/api/docs", ...swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get("/api/docs.json", (_req, res) => res.json(swaggerSpec));
 
-app.use("/api/auth", authLimiter, authRouter);
+// Sensitive auth actions get the strict limiter; session reads/refresh a generous one.
+const SESSION_PATHS = new Set(["/me", "/csrf", "/refresh", "/logout", "/username-available"]);
+app.use("/api/auth", (req, res, next) => (SESSION_PATHS.has(req.path) ? sessionLimiter : authLimiter)(req, res, next), authRouter);
 app.use("/api/podcasts", podcastRouter);
 app.use("/api/grammar", grammarRouter);
 app.use("/api/listening", listeningRouter);
