@@ -5,6 +5,7 @@ import {
   deleteAccount,
   forgotPassword,
   login,
+  usernameAvailable,
   logout,
   me,
   refresh,
@@ -13,6 +14,7 @@ import {
   resetPassword,
   verifyEmail,
 } from "../controllers/authController.js";
+import { googleCallback, googleStart } from "../controllers/googleAuth.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { loginLimiter } from "../middleware/rateLimit.js";
 import { validate } from "../middleware/validate.js";
@@ -29,6 +31,9 @@ import {
 const router = Router();
 
 router.get("/csrf", csrf);
+router.get("/google", googleStart);
+router.get("/username-available", usernameAvailable);
+router.get("/google/callback", googleCallback);
 router.post("/register", validate(registerSchema), register);
 router.post("/login", loginLimiter, validate(loginSchema), login);
 router.post("/refresh", refresh);

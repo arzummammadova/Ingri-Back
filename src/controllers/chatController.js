@@ -20,7 +20,7 @@ async function catalogFor(level) {
 }
 
 function systemPrompt(user, locale, catalog) {
-  const lang = locale === "en" ? "English" : "Azerbaijani (Azərbaycan dili, Latin script)";
+  const lang = locale === "en" ? "English" : locale === "ru" ? "Russian (русский язык)" : "Azerbaijani (Azərbaycan dili, Latin script)";
   return `You are Ingri, a warm, encouraging English tutor inside the Ingri learning app for Azerbaijani speakers.
 Learner: ${user.name || "learner"}, current CEFR level ${user.activeLevel || "A1"} (studying: ${(user.levels || []).join(", ") || user.activeLevel}).
 Reply in ${lang}. Keep English examples in English. Adapt vocabulary and grammar difficulty to level ${user.activeLevel || "A1"}.

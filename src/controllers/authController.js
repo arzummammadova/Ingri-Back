@@ -6,6 +6,7 @@ import User from "../models/authModel.js";
 import Progress from "../models/progressModel.js";
 import RefreshToken from "../models/refreshTokenModel.js";
 import { sendMail } from "../utils/sendMail.js";
+import { accountExistsEmail, frontendUrl, passwordChangedEmail, resetEmail, verifyEmail as verifyTemplate, welcomeEmail } from "../utils/emailTemplates.js";
 import { publicUser } from "../utils/publicUser.js";
 import { touchStreak } from "../utils/activity.js";
 import { DEFAULT_TASKS } from "../utils/activity.js";
@@ -26,7 +27,7 @@ const MAX_FAILS = 5;
 const LOCK_MS = 15 * 60 * 1000;
 
 function appOrigin() {
-  return (process.env.FRONTEND_ORIGIN || "http://127.0.0.1:43123").split(",")[0].trim();
+  return frontendUrl();
 }
 
 function signAccess(user) {
@@ -62,15 +63,13 @@ function mailLink(locale, path, token) {
 
 async function sendVerifyMail(user, raw) {
   const link = mailLink(user.locale || "az", "verify-email", raw);
-  const az = user.locale !== "en";
-  await sendMail({
-    to: user.email,
-    subject: az ? "Ingri hesabını təsdiqlə" : "Verify your Ingri account",
-    text: az
-      ? `Hesabını təsdiqləmək üçün bu keçidi aç (24 saat etibarlıdır): ${link}`
-      : `Open this link to verify your account (valid for 24 hours): ${link}`,
-    html: `<p>${az ? "Hesabını təsdiqləmək üçün aşağıdakı keçidi aç." : "Open the link below to verify your account."}</p><p><a href="${link}">${link}</a></p>`,
-  });
+  await sendMail({ to: user.email, ...verifyTemplate({ name: user.username || user.name, link, locale: user.locale }) });
+}
+
+/** Issues the session cookies exactly like a password login. */
+export async function completeLogin(res, user) {
+  const refresh = await issueRefresh(user._id);
+  setAuthCookies(res, signAccess(user), refresh);
 }
 
 export async function csrf(_req, res) {
@@ -82,11 +81,14 @@ export async function csrf(_req, res) {
 export async function register(req, res, next) {
   try {
     const email = req.body.email.toLowerCase();
+    const username = req.body.username.toLowerCase();
     const existing = await User.findOne({ email }).select("+verifyTokenHash");
+    if (!existing && (await User.exists({ username }))) return res.status(409).json({ code: "USERNAME_TAKEN" });
     if (!existing) {
       const raw = randomToken(32);
       const user = await User.create({
-        name: req.body.name,
+        name: username,
+        username,
         email,
         password: await bcrypt.hash(req.body.password, 12),
         locale: req.body.locale || "az",
@@ -108,17 +110,19 @@ export async function register(req, res, next) {
       await existing.save();
       await sendVerifyMail(existing, raw);
     } else {
-      await sendMail({
-        to: existing.email,
-        subject: "Ingri",
-        text: "Someone tried to create an account with your email. If this was you, sign in instead.",
-        html: "<p>Someone tried to create an account with your email. If this was you, sign in instead.</p>",
-      });
+      await sendMail({ to: existing.email, ...accountExistsEmail({ name: existing.username || existing.name, locale: existing.locale }) });
     }
     res.status(201).json({ code: "CHECK_EMAIL" });
   } catch (error) {
     next(error);
   }
+}
+
+export async function usernameAvailable(req, res) {
+  const value = String(req.query.username || "").trim().toLowerCase();
+  if (!/^[a-z0-9._]{3,20}$/.test(value)) return res.json({ available: false, code: "INVALID" });
+  const taken = await User.exists({ username: value, ...(req.user ? { _id: { $ne: req.user._id } } : {}) });
+  res.json({ available: !taken });
 }
 
 export async function login(req, res, next) {
@@ -127,6 +131,7 @@ export async function login(req, res, next) {
     const invalid = () => res.status(401).json({ code: "INVALID_CREDENTIALS" });
     if (!user) return invalid();
     if (user.lockUntil && user.lockUntil > new Date()) return invalid();
+    if (!user.password) return res.status(401).json({ code: "USE_GOOGLE" });
     const matches = await bcrypt.compare(req.body.password, user.password);
     if (!matches) {
       user.failedLogins = (user.failedLogins || 0) + 1;
@@ -212,6 +217,7 @@ export async function verifyEmail(req, res, next) {
     user.verifyTokenHash = undefined;
     user.verifyTokenExpires = undefined;
     await user.save();
+    sendMail({ to: user.email, ...welcomeEmail({ name: user.username || user.name, locale: user.locale }) }).catch(() => undefined);
     res.json({ code: "EMAIL_VERIFIED" });
   } catch (error) {
     next(error);
@@ -247,15 +253,7 @@ export async function forgotPassword(req, res, next) {
       user.resetTokenExpires = new Date(Date.now() + RESET_MS);
       await user.save();
       const link = mailLink(user.locale || "az", "reset-password", raw);
-      const az = user.locale !== "en";
-      await sendMail({
-        to: user.email,
-        subject: az ? "Şifrəni yenilə" : "Reset your password",
-        text: az
-          ? `Şifrəni yeniləmək üçün keçid (30 dəqiqə): ${link}`
-          : `Reset your password (valid for 30 minutes): ${link}`,
-        html: `<p><a href="${link}">${link}</a></p>`,
-      });
+      await sendMail({ to: user.email, ...resetEmail({ name: user.username || user.name, link, locale: user.locale }) });
     }
     res.json({ code: "CHECK_EMAIL" });
   } catch (error) {
@@ -277,6 +275,7 @@ export async function resetPassword(req, res, next) {
     user.lockUntil = undefined;
     await user.save();
     await RefreshToken.updateMany({ user: user._id }, { revoked: true });
+    sendMail({ to: user.email, ...passwordChangedEmail({ name: user.username || user.name, locale: user.locale }) }).catch(() => undefined);
     res.json({ code: "PASSWORD_UPDATED" });
   } catch (error) {
     next(error);
@@ -286,10 +285,14 @@ export async function resetPassword(req, res, next) {
 export async function changePassword(req, res, next) {
   try {
     const user = await User.findById(req.user._id).select("+password");
-    const matches = await bcrypt.compare(req.body.currentPassword, user.password);
-    if (!matches) return res.status(400).json({ code: "INVALID_CREDENTIALS" });
+    // Google-only accounts have no password yet: they may set one without the current password.
+    if (user.password) {
+      const matches = await bcrypt.compare(req.body.currentPassword || "", user.password);
+      if (!matches) return res.status(400).json({ code: "INVALID_CREDENTIALS" });
+    }
     user.password = await bcrypt.hash(req.body.password, 12);
     await user.save();
+    sendMail({ to: user.email, ...passwordChangedEmail({ name: user.username || user.name, locale: user.locale }) }).catch(() => undefined);
     await RefreshToken.deleteMany({ user: user._id });
     const refresh = await issueRefresh(user._id);
     setAuthCookies(res, signAccess(user), refresh);
@@ -302,8 +305,10 @@ export async function changePassword(req, res, next) {
 export async function deleteAccount(req, res, next) {
   try {
     const user = await User.findById(req.user._id).select("+password");
-    const matches = await bcrypt.compare(req.body.password, user.password);
-    if (!matches) return res.status(400).json({ code: "INVALID_CREDENTIALS" });
+    if (user.password) {
+      const matches = await bcrypt.compare(req.body.password || "", user.password);
+      if (!matches) return res.status(400).json({ code: "INVALID_CREDENTIALS" });
+    }
     await removeAvatarFile(user);
     await Progress.deleteOne({ user: user._id });
     await RefreshToken.deleteMany({ user: user._id });

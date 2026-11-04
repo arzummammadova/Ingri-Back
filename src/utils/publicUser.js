@@ -3,8 +3,11 @@ import { liveStreak } from "./activity.js";
 export function publicUser(user) {
   return {
     id: String(user._id),
-    name: user.name,
+    name: user.username || user.name,
+    username: user.username || "",
+    displayName: user.name,
     email: user.email,
+    authProvider: user.authProvider || "local",
     bio: user.bio || "",
     level: user.activeLevel || user.level,
     levels: user.levels?.length ? user.levels : [user.activeLevel || user.level || "A1"],
@@ -42,7 +45,9 @@ export function publicUser(user) {
 export function publicPeer(user) {
   return {
     id: String(user._id),
-    name: user.name,
+    name: user.username || user.name,
+    username: user.username || "",
+    displayName: user.name,
     level: user.activeLevel || user.level,
     activeLevel: user.activeLevel || user.level || "A1",
     avatarType: user.avatarType,

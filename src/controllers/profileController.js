@@ -76,6 +76,12 @@ export async function savePlan(req, res, next) {
 
 export async function updateProfile(req, res, next) {
   try {
+    if (req.body.username !== undefined && req.body.username !== req.user.username) {
+      const taken = await req.user.constructor.exists({ username: req.body.username, _id: { $ne: req.user._id } });
+      if (taken) return res.status(409).json({ code: "USERNAME_TAKEN" });
+      req.user.username = req.body.username;
+      req.user.name = req.body.username;
+    }
     const fields = ["name", "bio", "level", "learningGoals", "city", "locale"];
     for (const field of fields) {
       if (req.body[field] !== undefined) req.user[field] = req.body[field];

@@ -7,7 +7,7 @@ import { validate } from "../middleware/validate.js";
 
 const chatSchema = Joi.object({
   message: Joi.string().trim().min(1).max(2000).required(),
-  locale: Joi.string().valid("az", "en").default("az"),
+  locale: Joi.string().valid("az", "en", "ru").default("az"),
 });
 
 const router = Router();

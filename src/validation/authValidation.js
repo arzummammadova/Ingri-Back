@@ -12,10 +12,10 @@ const password = Joi.string()
 export const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 export const registerSchema = Joi.object({
-  name: Joi.string().trim().min(2).max(80).required(),
+  username: Joi.string().trim().lowercase().pattern(/^[a-z0-9._]{3,20}$/, "username").required(),
   email: Joi.string().trim().lowercase().email().required(),
   password,
-  locale: Joi.string().valid("az", "en").default("az"),
+  locale: Joi.string().valid("az", "en", "ru").default("az"),
   level: Joi.string().valid(...CEFR_LEVELS).default("A1"),
 });
 
@@ -38,10 +38,10 @@ export const resetSchema = Joi.object({
 });
 
 export const changePasswordSchema = Joi.object({
-  currentPassword: Joi.string().min(1).max(72).required(),
+  currentPassword: Joi.string().allow("").max(72).default(""),
   password,
 });
 
 export const deleteAccountSchema = Joi.object({
-  password: Joi.string().min(1).max(72).required(),
+  password: Joi.string().allow("").max(72).default(""),
 });

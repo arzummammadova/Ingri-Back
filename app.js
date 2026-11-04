@@ -106,6 +106,12 @@ connectDB()
       const { seed } = await import("./src/seed/seed.js");
       await seed();
     }
+    try {
+      const [{ default: User }, { backfillUsernames }] = await Promise.all([import("./src/models/authModel.js"), import("./src/utils/username.js")]);
+      await backfillUsernames(User);
+    } catch (error) {
+      console.warn("[username] backfill skipped:", error.message);
+    }
     app.listen(port, () => {
       console.log(`Ingri API on http://127.0.0.1:${port}`);
       console.log(`Swagger UI on http://127.0.0.1:${port}/api/docs`);

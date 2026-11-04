@@ -16,6 +16,13 @@ function getTransporter() {
   return transporter;
 }
 
+/** Always shows "Ingri" as the sender name, whatever EMAIL_FROM contains. */
+function mailFrom() {
+  const raw = (process.env.EMAIL_FROM || "").trim();
+  const address = raw.match(/<([^>]+)>/)?.[1] || (raw.includes("@") ? raw : process.env.EMAIL_USER);
+  return { name: "Ingri", address };
+}
+
 export async function sendMail({ to, subject, html, text }) {
   const mailer = getTransporter();
   if (!mailer) {
@@ -26,7 +33,7 @@ export async function sendMail({ to, subject, html, text }) {
     return { preview: true };
   }
   await mailer.sendMail({
-    from: process.env.EMAIL_FROM || `Ingri <${process.env.EMAIL_USER}>`,
+    from: mailFrom(),
     to,
     subject,
     text,

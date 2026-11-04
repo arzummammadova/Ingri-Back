@@ -57,7 +57,7 @@ const spec = swaggerJsdoc({
         post: {
           tags: ["Auth"],
           summary: "Register and email a verification link",
-          requestBody: { required: true, content: { "application/json": { schema: { type: "object", required: ["name", "email", "password"], properties: { name: { type: "string" }, email: { type: "string" }, password: { type: "string" }, locale: { type: "string", enum: ["az", "en"] } } } } } },
+          requestBody: { required: true, content: { "application/json": { schema: { type: "object", required: ["name", "email", "password"], properties: { name: { type: "string" }, email: { type: "string" }, password: { type: "string" }, locale: { type: "string", enum: ["az", "en", "ru"] } } } } } },
           responses: { 201: { description: "Generic check-email response" }, 400: { description: "Validation error" } },
         },
       },
@@ -142,7 +142,7 @@ const spec = swaggerJsdoc({
       "/progress/task": { post: { tags: ["Progress"], summary: "Toggle a daily task", security: [{ cookieAuth: [] }], responses: { 200: { description: "Saved" } } } },
       "/leaderboard": { get: { tags: ["Leaderboard"], summary: "Rank learners by XP", responses: { 200: { description: "Board" } } } },
       "/leaderboard/{id}": { get: { tags: ["Leaderboard"], summary: "Public learner card", parameters: [{ name: "id", in: "path", required: true, schema: { type: "string" } }], responses: { 200: { description: "Learner" }, 404: { description: "Not found" } } } },
-      "/chat": { post: { tags: ["Chat"], summary: "Ask Ingri. Streams text/event-stream lines: data: {delta} … data: {done:true} or data: {error}. Provider from GEMINI_API_KEY / GROQ_API_KEY / OPENAI_API_KEY.", security: [{ cookieAuth: [], csrfHeader: [] }], requestBody: { required: true, content: { "application/json": { schema: { type: "object", required: ["message"], properties: { message: { type: "string", maxLength: 2000 }, locale: { type: "string", enum: ["az", "en"] } } } } } }, responses: { 200: { description: "SSE stream" }, 429: { description: "Rate limited" } } } },
+      "/chat": { post: { tags: ["Chat"], summary: "Ask Ingri. Streams text/event-stream lines: data: {delta} … data: {done:true} or data: {error}. Provider from GEMINI_API_KEY / GROQ_API_KEY / OPENAI_API_KEY.", security: [{ cookieAuth: [], csrfHeader: [] }], requestBody: { required: true, content: { "application/json": { schema: { type: "object", required: ["message"], properties: { message: { type: "string", maxLength: 2000 }, locale: { type: "string", enum: ["az", "en", "ru"] } } } } } }, responses: { 200: { description: "SSE stream" }, 429: { description: "Rate limited" } } } },
       "/chat/history": {
         get: { tags: ["Chat"], summary: "Saved conversation (last 100 messages) and active provider", security: [{ cookieAuth: [] }], responses: { 200: { description: "{ items, provider }" } } },
         delete: { tags: ["Chat"], summary: "Clear saved conversation", security: [{ cookieAuth: [], csrfHeader: [] }], responses: { 200: { description: "Cleared" } } },

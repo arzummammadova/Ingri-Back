@@ -8,8 +8,17 @@ const dailySchema = new mongoose.Schema(
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, maxlength: 80 },
+    username: { type: String, unique: true, sparse: true, lowercase: true, trim: true, match: /^[a-z0-9._]{3,20}$/ },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true, select: false },
+    password: {
+      type: String,
+      select: false,
+      required() {
+        return this.authProvider !== "google" && !this.googleId;
+      },
+    },
+    authProvider: { type: String, enum: ["local", "google"], default: "local" },
+    googleId: { type: String, index: true, sparse: true },
     bio: { type: String, default: "", maxlength: 280 },
     level: { type: String, enum: ["A1", "A2", "B1", "B2", "C1", "C2"], default: "A1" },
     levels: { type: [String], default: ["A1"] },
@@ -56,10 +65,16 @@ const userSchema = new mongoose.Schema(
     totalMinutes: { type: Number, default: 0 },
     dailyMinutes: { type: [dailySchema], default: [] },
     city: { type: String, default: "" },
-    locale: { type: String, enum: ["az", "en"], default: "az" },
+    locale: { type: String, enum: ["az", "en", "ru"], default: "az" },
   },
   { timestamps: true },
 );
+
+userSchema.pre("validate", async function ensureUsername() {
+  if (this.username) return;
+  const { uniqueUsername } = await import("../utils/username.js");
+  this.username = await uniqueUsername(this.constructor, this.email?.split("@")[0] || this.name, this._id);
+});
 
 userSchema.pre("save", function syncLevels() {
   const allowed = ["A1", "A2", "B1", "B2", "C1", "C2"];

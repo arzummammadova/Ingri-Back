@@ -27,11 +27,12 @@ export const planSchema = Joi.object({
 
 export const profileSchema = Joi.object({
   name: Joi.string().trim().min(2).max(80),
+  username: Joi.string().trim().lowercase().pattern(/^[a-z0-9._]{3,20}$/, "username"),
   bio: Joi.string().trim().max(280).allow(""),
   level: Joi.string().valid(...CEFR_LEVELS),
   learningGoals: Joi.array().items(Joi.string().valid("travel", "work", "exams", "daily")).max(4),
   city: Joi.string().trim().max(60).allow(""),
-  locale: Joi.string().valid("az", "en"),
+  locale: Joi.string().valid("az", "en", "ru"),
 }).min(1);
 
 export const presetSchema = Joi.object({
