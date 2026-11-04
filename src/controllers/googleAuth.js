@@ -110,7 +110,7 @@ export async function googleCallback(req, res) {
     await completeLogin(res, user);
     if (created) {
       const mail = welcomeEmail({ name: user.name, locale: user.locale });
-      sendMail({ to: user.email, ...mail }).catch(() => undefined);
+      sendMail({ to: user.email, ...mail }).catch((error) => console.error("[mail] welcome failed:", error?.message || error));
     }
     return bounce(res, `${frontendUrl()}/${LOCALES.includes(user.locale) ? user.locale : locale}/${created ? "onboarding" : "dashboard"}`);
   } catch (error) {

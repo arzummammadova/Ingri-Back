@@ -61,9 +61,16 @@ function mailLink(locale, path, token) {
   return `${appOrigin()}/${locale}/${path}?token=${token}`;
 }
 
-async function sendVerifyMail(user, raw) {
+/** Sends mail in the background so an SMTP/API stall can never block the HTTP response. */
+function mailInBackground(message, label) {
+  Promise.resolve()
+    .then(() => sendMail(message))
+    .catch((error) => console.error(`[mail] ${label} failed:`, error?.message || error));
+}
+
+function sendVerifyMail(user, raw) {
   const link = mailLink(user.locale || "az", "verify-email", raw);
-  await sendMail({ to: user.email, ...verifyTemplate({ name: user.username || user.name, link, locale: user.locale }) });
+  mailInBackground({ to: user.email, ...verifyTemplate({ name: user.username || user.name, link, locale: user.locale }) }, "verify");
 }
 
 /** Issues the session cookies exactly like a password login. */
@@ -102,15 +109,15 @@ export async function register(req, res, next) {
         verifyTokenExpires: new Date(Date.now() + VERIFY_MS),
       });
       await Progress.create({ user: user._id, tasks: DEFAULT_TASKS });
-      await sendVerifyMail(user, raw);
+      sendVerifyMail(user, raw);
     } else if (!existing.isVerified) {
       const raw = randomToken(32);
       existing.verifyTokenHash = hashToken(raw);
       existing.verifyTokenExpires = new Date(Date.now() + VERIFY_MS);
       await existing.save();
-      await sendVerifyMail(existing, raw);
+      sendVerifyMail(existing, raw);
     } else {
-      await sendMail({ to: existing.email, ...accountExistsEmail({ name: existing.username || existing.name, locale: existing.locale }) });
+      mailInBackground({ to: existing.email, ...accountExistsEmail({ name: existing.username || existing.name, locale: existing.locale }) }, "account-exists");
     }
     res.status(201).json({ code: "CHECK_EMAIL" });
   } catch (error) {
@@ -217,7 +224,7 @@ export async function verifyEmail(req, res, next) {
     user.verifyTokenHash = undefined;
     user.verifyTokenExpires = undefined;
     await user.save();
-    sendMail({ to: user.email, ...welcomeEmail({ name: user.username || user.name, locale: user.locale }) }).catch(() => undefined);
+    sendMail({ to: user.email, ...welcomeEmail({ name: user.username || user.name, locale: user.locale }) }).catch((error) => console.error("[mail] failed:", error?.message || error));
     res.json({ code: "EMAIL_VERIFIED" });
   } catch (error) {
     next(error);
@@ -234,7 +241,7 @@ export async function resendVerification(req, res, next) {
       user.verifyTokenHash = hashToken(raw);
       user.verifyTokenExpires = new Date(Date.now() + VERIFY_MS);
       await user.save();
-      await sendVerifyMail(user, raw);
+      sendVerifyMail(user, raw);
     }
     res.json({ code: "CHECK_EMAIL" });
   } catch (error) {
@@ -253,7 +260,7 @@ export async function forgotPassword(req, res, next) {
       user.resetTokenExpires = new Date(Date.now() + RESET_MS);
       await user.save();
       const link = mailLink(user.locale || "az", "reset-password", raw);
-      await sendMail({ to: user.email, ...resetEmail({ name: user.username || user.name, link, locale: user.locale }) });
+      mailInBackground({ to: user.email, ...resetEmail({ name: user.username || user.name, link, locale: user.locale }) }, "reset");
     }
     res.json({ code: "CHECK_EMAIL" });
   } catch (error) {
@@ -275,7 +282,7 @@ export async function resetPassword(req, res, next) {
     user.lockUntil = undefined;
     await user.save();
     await RefreshToken.updateMany({ user: user._id }, { revoked: true });
-    sendMail({ to: user.email, ...passwordChangedEmail({ name: user.username || user.name, locale: user.locale }) }).catch(() => undefined);
+    sendMail({ to: user.email, ...passwordChangedEmail({ name: user.username || user.name, locale: user.locale }) }).catch((error) => console.error("[mail] failed:", error?.message || error));
     res.json({ code: "PASSWORD_UPDATED" });
   } catch (error) {
     next(error);
@@ -292,7 +299,7 @@ export async function changePassword(req, res, next) {
     }
     user.password = await bcrypt.hash(req.body.password, 12);
     await user.save();
-    sendMail({ to: user.email, ...passwordChangedEmail({ name: user.username || user.name, locale: user.locale }) }).catch(() => undefined);
+    sendMail({ to: user.email, ...passwordChangedEmail({ name: user.username || user.name, locale: user.locale }) }).catch((error) => console.error("[mail] failed:", error?.message || error));
     await RefreshToken.deleteMany({ user: user._id });
     const refresh = await issueRefresh(user._id);
     setAuthCookies(res, signAccess(user), refresh);
