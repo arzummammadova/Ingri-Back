@@ -106,6 +106,14 @@ connectDB()
       const { seed } = await import("./src/seed/seed.js");
       await seed();
     }
+    if (process.env.AUTO_SEED !== "0") {
+      try {
+        const { seedContentIfEmpty } = await import("./src/seed/seedContent.js");
+        await seedContentIfEmpty();
+      } catch (error) {
+        console.warn("[seed] auto-seed skipped:", error.message);
+      }
+    }
     try {
       const [{ default: User }, { backfillUsernames }] = await Promise.all([import("./src/models/authModel.js"), import("./src/utils/username.js")]);
       await backfillUsernames(User);

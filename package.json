@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app.js",
-    "seed": "node src/seed/seed.js"
+    "seed": "node src/seed/seedAll.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
