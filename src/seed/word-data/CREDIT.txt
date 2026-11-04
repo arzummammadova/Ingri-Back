@@ -1,0 +1,5 @@
+Headword order comes from the New General Service List (NGSL) 1.01 by Browne, Culligan and Phillips, used under CC BY-SA.
+Definitions, example sentences, and Azerbaijani translations in glosses.json are original to Learn English.
+Do not paste entries from copyrighted learner dictionaries. To grow the bank toward 4,000 words, add JSON files in this folder:
+[{ "en": "word", "az": "tərcümə", "pos": "noun", "ipa": "/wɜːd/", "example": "Original sentence.", "exampleAz": "Öz cümlən." }]
+Rank and CEFR band are assigned from ngsl-headwords.txt when the headword is listed.

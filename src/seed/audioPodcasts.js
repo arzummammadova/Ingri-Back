@@ -1,0 +1,83 @@
+/**
+ * Real-audio podcast episodes (mp3 in front/public/audio/podcasts).
+ * The bee transcript is taken from the TTS script used to produce the audio.
+ */
+const quizItem = (prompt, promptAz, options, answer, explain, explainAz) => ({ prompt, promptAz, options, answer, explain, explainAz });
+
+export const audioPodcasts = [
+  {
+    slug: "how-bees-talk",
+    title: "How Do Bees Talk?",
+    titleAz: "Arılar necə danışır?",
+    level: "A2",
+    alsoFor: ["B1"],
+    minutes: 8,
+    accent: "peach",
+    order: 900,
+    audioUrl: "/audio/podcasts/how-bees-talk.mp3",
+    transcriptAvailable: true,
+    summary: "Bees can't speak, but they dance and use smells to share information. Learn the round dance, the waggle dance and 10 key words.",
+    summaryAz: "Arılar danışa bilmir, amma rəqs edərək və qoxu ilə məlumat paylaşırlar. Dairəvi rəqsi, “yırğalanma rəqsi”ni və 10 açar sözü öyrən.",
+    sentences: [
+      { speaker: "Host", en: "Hello and welcome to Ingri English Podcast! I'm your host. Today we have a sweet topic. How do bees talk? Bees cannot speak like us. But they can share a lot of information. Let's find out how!", az: "Salam, Ingri English Podcast-a xoş gəlmisiniz! Mən aparıcınızam. Bu gün şirin bir mövzumuz var. Arılar necə danışır? Arılar bizim kimi danışa bilmir. Amma çoxlu məlumat paylaşa bilirlər. Gəlin necə olduğunu öyrənək!" },
+      { speaker: "Host", en: "A honey bee lives in a big family called a colony. One colony can have fifty thousand bees. There is one queen. Most of the other bees are workers. The workers have many jobs. Some clean the hive. Some make honey. And some fly outside to look for food.", az: "Bal arısı koloniya adlanan böyük ailədə yaşayır. Bir koloniyada əlli min arı ola bilər. Bir ana arı (kraliça) var. Qalan arıların çoxu işçi arılardır. İşçilərin çoxlu işi var. Bəziləri pətəyi təmizləyir. Bəziləri bal düzəldir. Bəziləri isə yemək axtarmaq üçün çölə uçur." },
+      { speaker: "Host", en: "Imagine a worker bee finds a field full of flowers. The flowers have sweet nectar. That is great news! But how can she tell her sisters where the flowers are? She has no phone and no map. So, she dances!", az: "Təsəvvür et ki, işçi arı çiçəklərlə dolu bir tarla tapır. Çiçəklərin şirin nektarı var. Bu, əla xəbərdir! Amma o, bacılarına çiçəklərin harada olduğunu necə deyə bilər? Onun telefonu da, xəritəsi də yoxdur. Ona görə də rəqs edir!" },
+      { speaker: "Host", en: "Yes, really. Bees dance to communicate. When the flowers are close to the hive, the bee does a round dance. She moves in small circles. The other bees understand: food is near, search around here.", az: "Bəli, həqiqətən. Arılar ünsiyyət üçün rəqs edir. Çiçəklər pətəyə yaxın olanda arı dairəvi rəqs edir. O, kiçik dairələrlə hərəkət edir. Digər arılar başa düşür: yemək yaxındadır, buralarda axtarın." },
+      { speaker: "Host", en: "When the flowers are far away, the bee does a waggle dance. She walks in a straight line and shakes her body from side to side. Then she turns and does it again. The direction of the line shows the direction of the flowers, compared to the sun. And the length of the waggle shows the distance. A long waggle means the food is far. A short waggle means it is closer.", az: "Çiçəklər uzaqda olanda arı “yırğalanma rəqsi” edir. O, düz xətt üzrə yeriyir və bədənini sağa-sola silkələyir. Sonra dönür və bunu yenidən edir. Xəttin istiqaməti günəşə nisbətən çiçəklərin istiqamətini göstərir. Yırğalanmanın uzunluğu isə məsafəni göstərir. Uzun yırğalanma yeməyin uzaqda olduğunu bildirir. Qısa yırğalanma daha yaxın olduğunu bildirir." },
+      { speaker: "Host", en: "This is amazing, isn't it? A tiny insect uses the sun like a compass. A scientist named Karl von Frisch discovered this secret. In nineteen seventy-three, he won the Nobel Prize for his work.", az: "Heyrətamizdir, elə deyilmi? Kiçik bir həşərat günəşdən kompas kimi istifadə edir. Karl fon Friş adlı alim bu sirri kəşf edib. 1973-cü ildə o, bu işinə görə Nobel mükafatı qazanıb." },
+      { speaker: "Host", en: "Bees also use smell to talk. The queen makes a special smell. It tells the colony: I am here, everything is okay. And when a bee feels danger, it makes a warning smell. Then other bees come to protect the hive.", az: "Arılar danışmaq üçün qoxudan da istifadə edir. Ana arı xüsusi qoxu yayır. Bu, koloniyaya deyir: mən buradayam, hər şey qaydasındadır. Arı təhlükə hiss edəndə isə xəbərdarlıq qoxusu yayır. Onda digər arılar pətəyi qorumağa gəlir." },
+      { speaker: "Host", en: "So next time you see a bee, remember. It is not just flying around. It is part of a smart, busy family that talks with dances and smells. Now, let's learn the key words from today's episode. Listen and repeat!", az: "Növbəti dəfə arı görəndə yadına sal. O, sadəcə ətrafda uçmur. O, rəqs və qoxu ilə danışan ağıllı, çalışqan bir ailənin üzvüdür. İndi bugünkü epizodun açar sözlərini öyrənək. Dinlə və təkrar et!" },
+      { speaker: "Host", en: "hive · colony · worker · nectar · dance · direction · distance · compass · smell · danger", az: "pətək · koloniya, arı ailəsi · işçi arı · çiçək nektarı · rəqs etmək · istiqamət · məsafə · kompas · qoxu · təhlükə" },
+      { speaker: "Host", en: "Great job! That's all for today. Keep learning, and see you next time on Ingri English Podcast. Bye!", az: "Əla! Bu günlük bu qədər. Öyrənməyə davam et, növbəti dəfə Ingri English Podcast-da görüşənədək. Sağ ol!" },
+    ],
+    glossary: [
+      { en: "hive", az: "pətək", ipa: "/haɪv/" },
+      { en: "colony", az: "koloniya, arı ailəsi", ipa: "/ˈkɒləni/" },
+      { en: "worker", az: "işçi arı", ipa: "/ˈwɜːkə/" },
+      { en: "nectar", az: "çiçək nektarı", ipa: "/ˈnektə/" },
+      { en: "dance", az: "rəqs etmək", ipa: "/dɑːns/" },
+      { en: "direction", az: "istiqamət", ipa: "/dəˈrekʃn/" },
+      { en: "distance", az: "məsafə", ipa: "/ˈdɪstəns/" },
+      { en: "compass", az: "kompas", ipa: "/ˈkʌmpəs/" },
+      { en: "smell", az: "qoxu", ipa: "/smel/" },
+      { en: "danger", az: "təhlükə", ipa: "/ˈdeɪndʒə/" },
+    ],
+    quiz: [
+      quizItem("What does the round dance tell other bees?", "Dairəvi rəqs digər arılara nə deyir?", ["The food is near the hive", "The food is very far", "The queen is sick", "It is going to rain"], 0, "Round dance = food is close: search around here.", "Dairəvi rəqs = yemək yaxındadır, buralarda axtarın."),
+      quizItem("In the waggle dance, what does the length of the waggle show?", "Yırğalanma rəqsində yırğalanmanın uzunluğu nəyi göstərir?", ["The colour of the flowers", "The distance to the food", "The number of bees", "The time of day"], 1, "A long waggle means far, a short waggle means closer.", "Uzun yırğalanma — uzaq, qısa — daha yaxın."),
+      quizItem("The direction of the waggle line is compared to…", "Yırğalanma xəttinin istiqaməti nəyə nisbətən göstərilir?", ["the moon", "the hive door", "the sun", "the wind"], 2, "Bees use the sun like a compass.", "Arılar günəşdən kompas kimi istifadə edir."),
+      quizItem("Who discovered the bee dance, and when did he win the Nobel Prize?", "Arı rəqsini kim kəşf edib və Nobel mükafatını nə vaxt alıb?", ["Charles Darwin, 1859", "Karl von Frisch, 1973", "Marie Curie, 1911", "Karl von Frisch, 1937"], 1, "Karl von Frisch won the Nobel Prize in 1973.", "Karl fon Friş 1973-cü ildə Nobel mükafatı qazanıb."),
+      quizItem("Which sentence is TRUE?", "Hansı cümlə DOĞRUDUR?", ["A colony can have up to 50,000 bees, and bees make a warning smell when they feel danger.", "A colony has five queens.", "Bees use phones and maps.", "Only the queen looks for food."], 0, "Up to 50,000 bees; the queen's smell says 'all is okay'; a warning smell calls bees to protect the hive.", "50 000-ə qədər arı; ana arının qoxusu “hər şey qaydasındadır” deyir; xəbərdarlıq qoxusu arıları pətəyi qorumağa çağırır."),
+    ],
+  },
+  {
+    slug: "amazing-octopus",
+    title: "Amazing Octopus",
+    titleAz: "Heyrətamiz ahtapot",
+    level: "A2",
+    minutes: 2,
+    accent: "aqua",
+    order: 901,
+    audioUrl: "/audio/podcasts/octopus.mp3",
+    transcriptAvailable: false,
+    summary: "A short episode about one of the smartest animals in the sea: eight arms, three hearts, blue blood and colour-changing skin.",
+    summaryAz: "Dənizin ən ağıllı heyvanlarından biri haqqında qısa epizod: səkkiz qol, üç ürək, mavi qan və rəngini dəyişən dəri.",
+    sentences: [],
+    glossary: [
+      { en: "octopus", az: "ahtapot", ipa: "/ˈɒktəpəs/" },
+      { en: "arm", az: "qol", ipa: "/ɑːm/" },
+      { en: "heart", az: "ürək", ipa: "/hɑːt/" },
+      { en: "blood", az: "qan", ipa: "/blʌd/" },
+      { en: "change colour", az: "rəngini dəyişmək", ipa: "/tʃeɪndʒ ˈkʌlə/" },
+      { en: "smart", az: "ağıllı", ipa: "/smɑːt/" },
+      { en: "hide", az: "gizlənmək", ipa: "/haɪd/" },
+      { en: "sea", az: "dəniz", ipa: "/siː/" },
+    ],
+    quiz: [
+      quizItem("How many hearts does an octopus have?", "Ahtapotun neçə ürəyi var?", ["One", "Two", "Three", "Eight"], 2, "An octopus has three hearts.", "Ahtapotun üç ürəyi var."),
+      quizItem("What colour is octopus blood?", "Ahtapotun qanı hansı rəngdədir?", ["Red", "Blue", "Green", "Yellow"], 1, "Its blood is blue.", "Onun qanı mavidir."),
+      quizItem("How many arms does an octopus have?", "Ahtapotun neçə qolu var?", ["Six", "Eight", "Ten", "Twelve"], 1, "Octo = eight.", "Octo = səkkiz."),
+      quizItem("Which sentence is TRUE?", "Hansı cümlə DOĞRUDUR?", ["An octopus can change colour and is very smart.", "An octopus cannot move.", "An octopus lives in the desert.", "An octopus has no arms."], 0, "Octopuses change colour to hide and are very intelligent.", "Ahtapotlar gizlənmək üçün rəngini dəyişir və çox ağıllıdır."),
+    ],
+  },
+];
