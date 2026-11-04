@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import { award } from "../utils/points.js";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import User from "../models/authModel.js";
@@ -17,6 +18,7 @@ export async function updateLevel(req, res, next) {
   try {
     req.user.levels = [req.body.level];
     req.user.activeLevel = req.body.level;
+    if (!req.user.placementCompleted) award(req.user, "placement");
     req.user.placementCompleted = true;
     await req.user.save();
     res.json({ user: publicUser(req.user) });
@@ -31,6 +33,7 @@ export async function updateLevels(req, res, next) {
     const active = levels.includes(req.body.activeLevel) ? req.body.activeLevel : levels[0];
     req.user.levels = levels;
     req.user.activeLevel = active;
+    if (req.body.placementCompleted && !req.user.placementCompleted) award(req.user, "placement");
     if (req.body.placementCompleted) req.user.placementCompleted = true;
     if (req.body.suggestedLevel) req.user.suggestedLevel = req.body.suggestedLevel;
     await req.user.save();

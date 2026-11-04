@@ -24,3 +24,16 @@ export function optionalAuth(req, _res, next) {
     next();
   });
 }
+
+/** Resolve the signed-in user (if any) without failing the request. */
+export function userFromRequest(req) {
+  if (req.user) return Promise.resolve(req.user);
+  const token = req.cookies?.accessToken;
+  if (!token) return Promise.resolve(null);
+  return new Promise((resolve) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
+      if (err) return resolve(null);
+      try { resolve(await User.findById(payload.sub).select("_id").lean()); } catch { resolve(null); }
+    });
+  });
+}

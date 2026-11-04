@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import "./pointEventModel.js";
 
 const dailySchema = new mongoose.Schema(
   { date: String, minutes: Number },
@@ -83,6 +84,18 @@ userSchema.pre("save", function syncLevels() {
   this.levels = levels.length ? [...new Set(levels)] : [allowed.includes(this.level) ? this.level : "A1"];
   if (!this.levels.includes(this.activeLevel)) this.activeLevel = this.levels[0];
   this.level = this.activeLevel;
+});
+
+// Persist queued points history rows (see utils/points.js award()).
+userSchema.post("save", async function writePoints(doc) {
+  const rows = doc.$locals?.points;
+  if (!rows?.length) return;
+  doc.$locals.points = [];
+  try {
+    await mongoose.model("PointEvent").insertMany(rows, { ordered: false });
+  } catch (error) {
+    console.warn("[points] history write failed:", error.message);
+  }
 });
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

@@ -10,6 +10,8 @@ import "../models/bookModel.js";
 import User from "../models/authModel.js";
 import { DEFAULT_TASKS, aggregateTime, syncMinutesFromLog, touchActivity } from "../utils/activity.js";
 import { publicUser } from "../utils/publicUser.js";
+import { award, POINT_RULES, pointsLevel, QUIZ_GATED, QUIZ_PASS } from "../utils/points.js";
+import PointEvent from "../models/pointEventModel.js";
 
 export const ITEM_KINDS = ["video", "movie", "podcast", "book", "chapter", "grammar", "listening", "speaking"];
 const CONTENT_MODELS = {
@@ -17,18 +19,20 @@ const CONTENT_MODELS = {
 };
 
 /** Idempotent: percent only grows, completion is sticky. Returns true on first completion. */
-export function markItem(progress, user, { kind, slug, level, percent = 0, completed = false }) {
+export function markItem(progress, user, { kind, slug, level, percent = 0, completed = false }, { fromQuiz = false } = {}) {
   if (!progress.items) progress.items = new Map();
   const key = `${kind}:${slug}`;
   const prev = progress.items.get(key);
   const pct = Math.max(Number(prev?.percent || 0), Math.min(100, Math.round(percent)));
-  const done = Boolean(prev?.completed) || completed || pct >= 90;
+  // Podcasts / listening: only a passed quiz completes them (listening to the end is not enough).
+  const gated = QUIZ_GATED.has(kind) && !fromQuiz;
+  const done = Boolean(prev?.completed) || (gated ? false : completed || pct >= 90);
   const justCompleted = done && !prev?.completed;
   progress.items.set(key, {
     kind,
     slug,
     level: level || prev?.level || user?.activeLevel || "",
-    percent: done ? 100 : pct,
+    percent: done ? 100 : gated ? Math.min(pct, 95) : pct,
     completed: done,
     completedAt: prev?.completedAt || (done ? new Date() : undefined),
     updatedAt: new Date(),
@@ -38,7 +42,7 @@ export function markItem(progress, user, { kind, slug, level, percent = 0, compl
     if (!progress.completed.includes(legacy)) progress.completed.push(legacy);
     if (kind === "video" && !progress.watchedVideos.includes(slug)) progress.watchedVideos.push(slug);
     if (kind === "movie" && !progress.watchedMovies.includes(slug)) progress.watchedMovies.push(slug);
-    if (user && kind !== "chapter") user.xp = (user.xp || 0) + 10;
+    if (user && kind !== "chapter" && !QUIZ_GATED.has(kind)) award(user, "content_complete", key);
   }
   return justCompleted;
 }
@@ -83,16 +87,8 @@ export async function savePodcast(req, res, next) {
     const progress = await loadProgress(req.user._id);
     const previous = Number(progress.podcastSeconds.get(req.body.slug) || 0);
     progress.podcastSeconds.set(req.body.slug, Math.max(previous, req.body.seconds));
-    const key = `podcast:${req.body.slug}`;
-    let xp = 0;
-    if (req.body.completed && !progress.completed.includes(key)) {
-      progress.completed.push(key);
-      xp += 15;
-      const task = progress.tasks.find((item) => item.key === "podcast");
-      if (task) task.done = true;
-    }
-    if (req.body.completed) markItem(progress, null, { kind: "podcast", slug: req.body.slug, completed: true });
-    req.user.xp += xp;
+    // Reaching the end only records listening; completion needs the quiz (savePodcastQuiz).
+    if (req.body.completed) markItem(progress, null, { kind: "podcast", slug: req.body.slug, percent: 95 });
     touchActivity(req.user, req.body.completed ? 2 : 1);
     await progress.save();
     await req.user.save();
@@ -110,11 +106,11 @@ export async function saveQuiz(req, res, next) {
     const key = `grammar:${req.body.slug}`;
     if (req.body.score >= 70 && !progress.completed.includes(key)) {
       progress.completed.push(key);
-      req.user.xp += 25;
+      award(req.user, "grammar_quiz_pass", req.body.slug);
       const task = progress.tasks.find((item) => item.key === "grammar");
       if (task) task.done = true;
     } else if (req.body.score > prev) {
-      req.user.xp += 5;
+      award(req.user, "grammar_quiz_improve", req.body.slug);
     }
     if (req.body.score >= 70) markItem(progress, null, { kind: "grammar", slug: req.body.slug, completed: true });
     touchActivity(req.user, 3);
@@ -131,16 +127,15 @@ export async function saveListening(req, res, next) {
     const progress = await loadProgress(req.user._id);
     const prev = Number(progress.listeningScores.get(req.body.slug) || 0);
     progress.listeningScores.set(req.body.slug, Math.max(prev, req.body.score));
-    const key = `listening:${req.body.slug}`;
-    if (req.body.score >= 70 && !progress.completed.includes(key)) {
-      progress.completed.push(key);
-      req.user.xp += 20;
+    let awarded = 0;
+    const passed = req.body.score >= QUIZ_PASS;
+    if (passed && markItem(progress, null, { kind: "listening", slug: req.body.slug, completed: true }, { fromQuiz: true })) {
+      awarded = award(req.user, "listening_pass", req.body.slug, Math.min(20, Math.round(req.body.score * 0.2)));
     }
-    if (req.body.score >= 70) markItem(progress, null, { kind: "listening", slug: req.body.slug, completed: true });
     touchActivity(req.user, 2);
     await progress.save();
     await req.user.save();
-    res.json(serialize(progress, req.user));
+    res.json({ ...serialize(progress, req.user), passed, awarded, passMark: QUIZ_PASS });
   } catch (error) {
     next(error);
   }
@@ -152,7 +147,7 @@ export async function saveSpeaking(req, res, next) {
     const prev = Number(progress.speakingBest.get(req.body.slug) || 0);
     if (req.body.score > prev) {
       progress.speakingBest.set(req.body.slug, req.body.score);
-      req.user.xp += Math.round(req.body.score / 10);
+      award(req.user, "speaking_best", req.body.slug, Math.min(10, Math.round(req.body.score / 10)));
     }
     const key = `speaking:${req.body.slug}`;
     if (req.body.score >= 80 && !progress.completed.includes(key)) progress.completed.push(key);
@@ -173,7 +168,7 @@ export async function saveWord(req, res, next) {
     const progress = await loadProgress(req.user._id);
     const prev = progress.wordStatus.get(req.body.slug);
     progress.wordStatus.set(req.body.slug, req.body.status);
-    if (req.body.status === "known" && prev !== "known") req.user.xp += 10;
+    if (req.body.status === "known" && prev !== "known") award(req.user, "word_known", req.body.slug);
     const known = [...progress.wordStatus.values()].filter((status) => status === "known").length;
     const task = progress.tasks.find((item) => item.key === "words");
     if (task && known >= 5) task.done = true;
@@ -191,15 +186,17 @@ export async function savePodcastQuiz(req, res, next) {
     const progress = await loadProgress(req.user._id);
     const prev = Number(progress.podcastQuiz.get(req.body.slug) || 0);
     progress.podcastQuiz.set(req.body.slug, Math.max(prev, req.body.score));
-    const key = `podcast:${req.body.slug}`;
-    if (req.body.score >= 70 && !progress.completed.includes(key)) {
-      progress.completed.push(key);
-      req.user.xp += 15;
+    let awarded = 0;
+    const passed = req.body.score >= QUIZ_PASS;
+    if (passed && markItem(progress, null, { kind: "podcast", slug: req.body.slug, completed: true }, { fromQuiz: true })) {
+      awarded = award(req.user, "podcast_quiz", req.body.slug, Math.min(30, Math.round(req.body.score * 0.3)));
+      const task = progress.tasks.find((item) => item.key === "podcast");
+      if (task) task.done = true;
     }
-    touchActivity(req.user, 0);
+    touchActivity(req.user, 2);
     await progress.save();
     await req.user.save();
-    res.json(serialize(progress, req.user));
+    res.json({ ...serialize(progress, req.user), passed, awarded, passMark: QUIZ_PASS });
   } catch (error) {
     next(error);
   }
@@ -314,3 +311,46 @@ export async function getSummary(req, res, next) {
 }
 
 export { User };
+
+/** Flashcards session fully finished (all chosen cards): +5 if ≥10 cards, at most 3 times a day. */
+export async function saveFlashcards(req, res, next) {
+  try {
+    const cards = Math.max(0, Math.min(500, Number.parseInt(req.body?.cards, 10) || 0));
+    let awarded = 0;
+    if (cards >= 10) {
+      const since = new Date();
+      since.setHours(0, 0, 0, 0);
+      const today = await PointEvent.countDocuments({ user: req.user._id, source: "flashcards_session", createdAt: { $gte: since } });
+      if (today < 3) awarded = award(req.user, "flashcards_session", `${cards} cards`);
+    }
+    touchActivity(req.user, 1);
+    await req.user.save();
+    res.json({ awarded, user: publicUser(req.user) });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/** Points page: total, level progress, rules, breakdown by source and recent history. */
+export async function getPoints(req, res, next) {
+  try {
+    const [history, breakdown] = await Promise.all([
+      PointEvent.find({ user: req.user._id }).sort({ createdAt: -1 }).limit(50).lean(),
+      PointEvent.aggregate([{ $match: { user: req.user._id } }, { $group: { _id: "$source", points: { $sum: "$points" }, count: { $sum: 1 } } }, { $sort: { points: -1 } }]),
+    ]);
+    const total = req.user.xp || 0;
+    const tracked = breakdown.reduce((sum, row) => sum + row.points, 0);
+    res.json({
+      total,
+      level: pointsLevel(total),
+      rules: Object.entries(POINT_RULES).map(([source, rule]) => ({ source, ...rule })),
+      breakdown: [
+        ...breakdown.map((row) => ({ source: row._id, points: row.points, count: row.count })),
+        ...(total - tracked > 0 ? [{ source: "earlier", points: total - tracked, count: 0 }] : []),
+      ],
+      history: history.map((row) => ({ source: row.source, points: row.points, ref: row.ref, at: row.createdAt })),
+    });
+  } catch (error) {
+    next(error);
+  }
+}

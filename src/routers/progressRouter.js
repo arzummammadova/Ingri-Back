@@ -13,6 +13,8 @@ import {
   saveWord,
   saveItem,
   getSummary,
+  saveFlashcards,
+  getPoints,
 } from "../controllers/progressController.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { validate } from "../middleware/validate.js";
@@ -34,6 +36,8 @@ const router = Router();
 router.use(requireAuth);
 router.get("/", getProgress);
 router.get("/summary", getSummary);
+router.get("/points", getPoints);
+router.post("/flashcards", saveFlashcards);
 router.post("/item", validate(itemSchema), saveItem);
 router.post("/podcast", validate(podcastProgressSchema), savePodcast);
 router.post("/quiz", validate(quizSchema), saveQuiz);

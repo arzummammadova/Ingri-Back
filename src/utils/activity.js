@@ -1,3 +1,4 @@
+import { award } from "./points.js";
 export const DEFAULT_TZ = "Asia/Baku";
 
 /** YYYY-MM-DD for a date in the given IANA timezone (default Asia/Baku). */
@@ -34,6 +35,8 @@ export function touchStreak(user, now = new Date()) {
   user.streak = user.lastActiveDate === prevDay(today) ? (user.streak || 0) + 1 : 1;
   user.lastActiveDate = today;
   user.longestStreak = Math.max(user.longestStreak || 0, user.streak);
+  award(user, "daily_active", today);
+  if (user.streak % 7 === 0) award(user, "streak_week", `${user.streak} days`);
   return true;
 }
 

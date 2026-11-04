@@ -26,6 +26,7 @@ import leaderboardRouter from "./src/routers/leaderboardRouter.js";
 import profileRouter from "./src/routers/profileRouter.js";
 import adminRouter from "./src/routers/adminRouter.js";
 import noteRouter from "./src/routers/noteRouter.js";
+import flashcardRouter from "./src/routers/flashcardRouter.js";
 import chatRouter from "./src/routers/chatRouter.js";
 
 const app = express();
@@ -90,6 +91,7 @@ app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/notes", noteRouter);
+app.use("/api/flashcards", flashcardRouter);
 app.use("/api/chat", chatRouter);
 
 app.use(notFound);

@@ -52,12 +52,36 @@ export async function facetsFor(Model, filters, base = {}) {
   return { level: levels, ...Object.fromEntries(entries) };
 }
 
-export async function runPagedList(Model, query, options) {
+/**
+ * Paged list. When `completed` (a Set of the user's completed slugs) is given:
+ *  - hideCompleted=1 drops them;
+ *  - otherwise completed items go to the bottom (after the chosen sort) unless completedLast=0.
+ * Each item gets `completed: true|false`.
+ */
+export async function runPagedList(Model, query, options, completed) {
   const { filter, sort, limit, page, sortKey, order } = buildListQuery(query, options);
-  const [items, total, facets] = await Promise.all([
-    Model.find(filter, options.projection).sort(sort).skip((page - 1) * limit).limit(limit).lean(),
-    Model.countDocuments(filter),
-    query.facets === "0" ? null : facetsFor(Model, options.filters || []),
-  ]);
-  return { items, total, page, limit, pages: Math.max(1, Math.ceil(total / limit)), sort: sortKey, order, facets };
+  const done = completed && completed.size ? [...completed] : [];
+  const facetsP = query.facets === "0" ? null : facetsFor(Model, options.filters || []);
+  const hide = query.hideCompleted === "1" || query.hideCompleted === "true";
+  const last = query.completedLast !== "0";
+  let items;
+  let total;
+  if (done.length && hide) {
+    const f = { ...filter, slug: { $nin: done } };
+    [items, total] = await Promise.all([Model.find(f, options.projection).sort(sort).skip((page - 1) * limit).limit(limit).lean(), Model.countDocuments(f)]);
+  } else if (done.length && last) {
+    const open = { ...filter, slug: { $nin: done } };
+    const closed = { ...filter, slug: { $in: done } };
+    const [openCount, closedCount] = await Promise.all([Model.countDocuments(open), Model.countDocuments(closed)]);
+    total = openCount + closedCount;
+    const skip = (page - 1) * limit;
+    const fromOpen = skip < openCount ? await Model.find(open, options.projection).sort(sort).skip(skip).limit(limit).lean() : [];
+    const need = limit - fromOpen.length;
+    const fromClosed = need > 0 ? await Model.find(closed, options.projection).sort(sort).skip(Math.max(0, skip - openCount)).limit(need).lean() : [];
+    items = [...fromOpen, ...fromClosed];
+  } else {
+    [items, total] = await Promise.all([Model.find(filter, options.projection).sort(sort).skip((page - 1) * limit).limit(limit).lean(), Model.countDocuments(filter)]);
+  }
+  if (completed) items = items.map((item) => ({ ...item, completed: completed.has(item.slug) }));
+  return { items, total, page, limit, pages: Math.max(1, Math.ceil(total / limit)), sort: sortKey, order, facets: await facetsP };
 }
