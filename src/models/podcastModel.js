@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const sentenceSchema = new mongoose.Schema(
-  { en: String, az: String, speaker: String },
+  { en: String, az: String, speaker: String, start: Number, end: Number },
   { _id: false },
 );
 
 const glossarySchema = new mongoose.Schema(
-  { en: String, az: String, ipa: String },
+  { en: String, az: String, ipa: String, example: String },
   { _id: false },
 );
 
@@ -21,6 +21,8 @@ const podcastSchema = new mongoose.Schema(
     summary: String,
     summaryAz: String,
     order: Number,
+    publishedAt: Date,
+    durationSec: Number,
     audioUrl: String,
     transcriptAvailable: { type: Boolean, default: true },
     alsoFor: [String],
