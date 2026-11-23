@@ -16,7 +16,7 @@ at the chosen hour (user's timezone, default Asia/Baku), only if they have not s
 ## Learning path, locking and points
 
 - Podcasts, grammar, listening and speaking open one by one (`src/utils/sequence.js`): inside a level only the next
-  unfinished item is open; the next CEFR level opens when every item of the previous level is finished
+  unfinished item is open; the next CEFR level opens once `LEVEL_UNLOCK_RATIO` (80%, rounded up) of the previous level's items are finished
   (levels up to the learner's own level are always open). Locked items return only their header from the API and
   can't be scored (`403 LOCKED`).
 - `GET /api/progress/path/:kind?level=B1` returns the ordered path with `completed / current / locked`.

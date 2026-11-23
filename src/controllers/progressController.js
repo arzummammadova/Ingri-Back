@@ -60,7 +60,7 @@ function handler(fn) {
 async function assertOpen(kind, slug, req, progress) {
   if (!isSequential(kind)) return;
   const access = await accessFor(kind, slug, req.user, progress);
-  if (access.locked) throw new HttpError(403, "LOCKED", { lock: { reason: access.reason, prev: access.prev || null, level: access.level } });
+  if (access.locked) throw new HttpError(403, "LOCKED", { lock: { reason: access.reason, prev: access.prev || null, level: access.level, gate: access.gate || null } });
 }
 
 async function contentDoc(kind, slug, fields) {
