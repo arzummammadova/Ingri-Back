@@ -37,8 +37,11 @@ const progressSchema = new mongoose.Schema(
     watchedMovies: { type: [String], default: [] },
     podcastQuiz: { type: Map, of: Number, default: {} },
     items: { type: Map, of: itemSchema, default: {} },
+    /** One-time point keys already paid ("source:ref") — see utils/points.js awardOnce(). */
+    awarded: { type: [String], default: [] },
   },
-  { timestamps: true },
+  // optimisticConcurrency: two parallel requests can't both read "not awarded yet" and pay twice.
+  { timestamps: true, optimisticConcurrency: true },
 );
 
 export default mongoose.models.Progress || mongoose.model("Progress", progressSchema);

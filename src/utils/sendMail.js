@@ -42,7 +42,7 @@ async function postJson(url, headers, body) {
 }
 
 /** Resend (https://resend.com) over HTTPS — works where SMTP ports are blocked (e.g. Render free). */
-async function sendViaResend({ to, subject, html, text }) {
+async function sendViaResend({ to, subject, html, text, headers }) {
   const from = mailFrom();
   const address = process.env.RESEND_FROM || from.address || "onboarding@resend.dev";
   await postJson("https://api.resend.com/emails", { Authorization: `Bearer ${process.env.RESEND_API_KEY}` }, {
@@ -51,11 +51,12 @@ async function sendViaResend({ to, subject, html, text }) {
     subject,
     html,
     text,
+    ...(headers ? { headers } : {}),
   });
 }
 
 /** Brevo transactional email over HTTPS. */
-async function sendViaBrevo({ to, subject, html, text }) {
+async function sendViaBrevo({ to, subject, html, text, headers }) {
   const from = mailFrom();
   await postJson("https://api.brevo.com/v3/smtp/email", { "api-key": process.env.BREVO_API_KEY }, {
     sender: { name: from.name, email: process.env.BREVO_FROM || from.address },
@@ -63,16 +64,17 @@ async function sendViaBrevo({ to, subject, html, text }) {
     subject,
     htmlContent: html,
     textContent: text,
+    ...(headers ? { headers } : {}),
   });
 }
 
-export async function sendMail({ to, subject, html, text }) {
+export async function sendMail({ to, subject, html, text, headers }) {
   if (process.env.RESEND_API_KEY) {
-    await sendViaResend({ to, subject, html, text });
+    await sendViaResend({ to, subject, html, text, headers });
     return { preview: false, provider: "resend" };
   }
   if (process.env.BREVO_API_KEY) {
-    await sendViaBrevo({ to, subject, html, text });
+    await sendViaBrevo({ to, subject, html, text, headers });
     return { preview: false, provider: "brevo" };
   }
   const mailer = getTransporter();

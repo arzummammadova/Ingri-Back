@@ -9,12 +9,13 @@ import {
   updateLevels,
   updatePreferences,
   updateProfile,
+  updateReminders,
   uploadAvatar,
 } from "../controllers/profileController.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { avatarUpload } from "../middleware/upload.js";
 import { validate } from "../middleware/validate.js";
-import { activeLevelSchema, levelSchema, levelsSchema, planSchema, preferencesSchema, presetSchema, profileSchema } from "../validation/profileValidation.js";
+import { activeLevelSchema, levelSchema, levelsSchema, planSchema, preferencesSchema, presetSchema, profileSchema, remindersSchema } from "../validation/profileValidation.js";
 
 const router = Router();
 router.use(requireAuth);
@@ -23,6 +24,7 @@ router.patch("/level", validate(levelSchema), updateLevel);
 router.patch("/levels", validate(levelsSchema), updateLevels);
 router.patch("/active-level", validate(activeLevelSchema), updateActiveLevel);
 router.put("/plan", validate(planSchema), savePlan);
+router.patch("/reminders", validate(remindersSchema), updateReminders);
 router.patch("/preferences", validate(preferencesSchema), updatePreferences);
 router.patch("/", validate(profileSchema), updateProfile);
 router.post("/avatar", avatarUpload, uploadAvatar);

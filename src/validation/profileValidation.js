@@ -49,3 +49,8 @@ export const preferencesSchema = Joi.object({
   volume: Joi.number().min(0).max(1),
   updatedAt: Joi.number().integer().min(0),
 }).min(1);
+
+export const remindersSchema = Joi.object({
+  email: Joi.boolean().required(),
+  hour: Joi.number().integer().min(0).max(23),
+});

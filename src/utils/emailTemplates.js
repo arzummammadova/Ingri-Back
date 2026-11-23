@@ -81,7 +81,18 @@ const COPY = {
     ru: { subject: "У вас уже есть аккаунт Ingri 🙂", title: "С возвращением!", intro: "Привет, {name}! Кто-то пытался создать новый аккаунт с этим e-mail. Если это были вы — просто войдите, аккаунт вас ждёт.", cta: "Войти", note: "Не помните пароль? Нажмите «Забыли пароль?» на странице входа." },
   },
 };
-const STYLE = { verify: ["✉️", BRAND.lilac], welcome: ["🎉", BRAND.mint], reset: ["🔐", BRAND.peach], changed: ["✅", BRAND.mint], exists: ["🙂", BRAND.aqua] };
+COPY.reminder = {
+  az: { subject: "Bugünkü 5 dəqiqən səni gözləyir ✨", title: "Salam, {name}!", intro: "Bu gün hələ ingilis dilinə vaxt ayırmamısan. Qısa bir podkast, bir neçə söz və ya kiçik test — cəmi 5 dəqiqə ilə {streak}irəliləyişini davam etdir.", cta: "Dərsə davam et", note: "Gündəlik xatırlatmaları istəmirsənsə, <a href=\"{unsub}\" style=\"color:#7c4dbd\">buradan söndür</a> və ya Tənzimləmələrdən dəyiş." },
+  en: { subject: "Your 5 minutes of English are waiting ✨", title: "Hi {name}!", intro: "You haven't practised English yet today. A short podcast, a few words or a quick quiz — just 5 minutes {streak}keeps you moving.", cta: "Continue learning", note: "Don't want daily reminders? <a href=\"{unsub}\" style=\"color:#7c4dbd\">Turn them off here</a> or change it in Settings." },
+  ru: { subject: "Ваши 5 минут английского ждут ✨", title: "Привет, {name}!", intro: "Сегодня вы ещё не занимались английским. Короткий подкаст, несколько слов или мини-тест — всего 5 минут {streak}помогут не терять темп.", cta: "Продолжить", note: "Не хотите ежедневных напоминаний? <a href=\"{unsub}\" style=\"color:#7c4dbd\">Отключите здесь</a> или в настройках." },
+};
+const STREAK = {
+  az: (n) => `və ${n} günlük seriyanı 🔥 qoru — `,
+  en: (n) => `and protecting your ${n}-day streak 🔥 `,
+  ru: (n) => `и сохранить серию в ${n} дн. 🔥 `,
+};
+
+const STYLE = { verify: ["✉️", BRAND.lilac], welcome: ["🎉", BRAND.mint], reset: ["🔐", BRAND.peach], changed: ["✅", BRAND.mint], exists: ["🙂", BRAND.aqua], reminder: ["⏰", BRAND.lilac] };
 
 function build(kind, { name, link, locale }) {
   const lang = LANG(locale);
@@ -98,3 +109,14 @@ export const welcomeEmail = ({ name, locale }) => build("welcome", { name, local
 export const resetEmail = ({ name, link, locale }) => build("reset", { name, link, locale });
 export const passwordChangedEmail = ({ name, locale }) => build("changed", { name, locale, link: page(locale, "forgot-password") });
 export const accountExistsEmail = ({ name, locale }) => build("exists", { name, locale, link: page(locale, "login") });
+
+/** Daily study reminder with a one-click unsubscribe link. */
+export function reminderEmail({ name, locale, streak = 0, unsubscribe }) {
+  const lang = LANG(locale);
+  const c = COPY.reminder[lang];
+  const who = esc(name || COMMON[lang].friend);
+  const intro = c.intro.replace("{name}", who).replace("{streak}", streak > 1 ? STREAK[lang](streak) : "");
+  const note = c.note.replace("{unsub}", esc(unsubscribe || page(lang, "settings")));
+  const [emoji, accent] = STYLE.reminder;
+  return { subject: c.subject, ...layout({ locale: lang, emoji, accent, title: c.title.replace("{name}", name || COMMON[lang].friend), intro, cta: c.cta, link: page(lang, "dashboard"), note }) };
+}

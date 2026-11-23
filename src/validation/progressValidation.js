@@ -8,12 +8,14 @@ export const podcastProgressSchema = Joi.object({
 
 export const quizSchema = Joi.object({
   slug: Joi.string().trim().required(),
-  score: Joi.number().integer().min(0).max(100).required(),
+  score: Joi.number().integer().min(0).max(100),
+  answers: Joi.array().items(Joi.number().integer().min(-1).max(20)).max(50),
 });
 
 export const listeningSchema = Joi.object({
   slug: Joi.string().trim().required(),
-  score: Joi.number().integer().min(0).max(100).required(),
+  score: Joi.number().integer().min(0).max(100),
+  answers: Joi.array().items(Joi.number().integer().min(-1).max(20)).max(50),
 });
 
 export const speakingSchema = Joi.object({
@@ -28,7 +30,8 @@ export const wordSchema = Joi.object({
 
 export const podcastQuizSchema = Joi.object({
   slug: Joi.string().trim().required(),
-  score: Joi.number().integer().min(0).max(100).required(),
+  score: Joi.number().integer().min(0).max(100),
+  answers: Joi.array().items(Joi.number().integer().min(-1).max(20)).max(50),
 });
 
 export const timeSchema = Joi.object({

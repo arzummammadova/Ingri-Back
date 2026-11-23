@@ -33,7 +33,7 @@ export function userFromRequest(req) {
   return new Promise((resolve) => {
     jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
       if (err) return resolve(null);
-      try { resolve(await User.findById(payload.sub).select("_id").lean()); } catch { resolve(null); }
+      try { resolve(await User.findById(payload.sub).select("_id levels activeLevel level role").lean()); } catch { resolve(null); }
     });
   });
 }

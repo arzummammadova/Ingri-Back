@@ -177,3 +177,21 @@ export async function updatePreferences(req, res, next) {
     next(error);
   }
 }
+
+/** Daily email reminder opt-in / opt-out (also marks the entry prompt as answered). */
+export async function updateReminders(req, res, next) {
+  try {
+    const current = req.user.reminders?.toObject?.() || req.user.reminders || {};
+    req.user.reminders = {
+      ...current,
+      email: req.body.email,
+      asked: true,
+      hour: req.body.hour ?? current.hour ?? 19,
+      updatedAt: new Date(),
+    };
+    await req.user.save();
+    res.json({ user: publicUser(req.user) });
+  } catch (error) {
+    next(error);
+  }
+}

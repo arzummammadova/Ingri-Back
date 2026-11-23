@@ -28,6 +28,8 @@ import adminRouter from "./src/routers/adminRouter.js";
 import noteRouter from "./src/routers/noteRouter.js";
 import flashcardRouter from "./src/routers/flashcardRouter.js";
 import chatRouter from "./src/routers/chatRouter.js";
+import { cronRouter, reminderRouter } from "./src/routers/reminderRouter.js";
+import { startReminderScheduler } from "./src/utils/reminders.js";
 
 const app = express();
 const port = Number(process.env.PORT || 4871);
@@ -68,6 +70,9 @@ app.use((req, _res, next) => {
   }
   next();
 });
+// Cron trigger + one-click email unsubscribe: server-to-server / email links, protected by their own secret.
+app.use("/api/cron", cronRouter);
+app.use("/api/reminders", reminderRouter);
 app.use(ensureCsrf);
 app.use(csrfProtection);
 
@@ -114,6 +119,10 @@ connectDB()
       try {
         const { seedContentIfEmpty } = await import("./src/seed/seedContent.js");
         await seedContentIfEmpty();
+        // New real-audio episodes ship in code: upsert them by slug on every start (user data untouched).
+        const [{ default: Podcast }, { audioPodcasts }] = await Promise.all([import("./src/models/podcastModel.js"), import("./src/seed/audioPodcasts.js")]);
+        const result = await Podcast.bulkWrite(audioPodcasts.map((doc) => ({ updateOne: { filter: { slug: doc.slug }, update: { $set: doc }, upsert: true } })), { ordered: false });
+        if (result.upsertedCount) console.log(`[seed] audio podcasts: ${result.upsertedCount} new`);
       } catch (error) {
         console.warn("[seed] auto-seed skipped:", error.message);
       }
@@ -124,6 +133,7 @@ connectDB()
     } catch (error) {
       console.warn("[username] backfill skipped:", error.message);
     }
+    startReminderScheduler();
     app.listen(port, () => {
       console.log(`Ingri API on http://127.0.0.1:${port}`);
       console.log(`Swagger UI on http://127.0.0.1:${port}/api/docs`);

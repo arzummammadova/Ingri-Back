@@ -5,6 +5,693 @@
  */
 export const audioPodcasts = [
   {
+    "slug": "once-you-learn-a-word",
+    "title": "Once You Learn a Word, You See It Everywhere",
+    "titleAz": "Yeni sözü öyrənən kimi onu hər yerdə görürsən",
+    "level": "B1",
+    "alsoFor": [
+      "A2",
+      "B2"
+    ],
+    "minutes": 4,
+    "durationSec": 239,
+    "accent": "aqua",
+    "order": -6.9,
+    "audioUrl": "/audio/podcasts/once-you-learn-a-word.mp3",
+    "transcriptAvailable": true,
+    "publishedAt": "2026-11-23T08:00:00.000Z",
+    "summary": "Maya and Leo talk about the frequency illusion: why a new English word suddenly seems to appear everywhere after you learn it.",
+    "summaryAz": "Maya və Leo tezlik illüziyasından danışır: yeni öyrəndiyin ingilis sözü niyə birdən hər yerdə qarşına çıxır.",
+    "sentences": [
+      {
+        "speaker": "Maya",
+        "en": "Hello, and welcome to the Ingri English Podcast. I'm Maya.",
+        "az": "Salam, Ingri English Podcast-a xoş gəldin. Mən Mayayam.",
+        "start": 0.0,
+        "end": 4.61
+      },
+      {
+        "speaker": "Leo",
+        "en": "And I'm Leo. Today we have a short, interesting story for you — and some useful new words at the end.",
+        "az": "Mən də Leo. Bu gün sənin üçün qısa, maraqlı bir hekayə və sonda bir neçə faydalı yeni söz var.",
+        "start": 5.0,
+        "end": 11.42
+      },
+      {
+        "speaker": "Maya",
+        "en": "Here's a question. Have you ever learned a new English word... and then seen it everywhere?",
+        "az": "Bir sual: heç yeni ingilis sözü öyrənib, sonra onu hər yerdə görmüsən?",
+        "start": 11.81,
+        "end": 17.5
+      },
+      {
+        "speaker": "Leo",
+        "en": "Yes! It feels so strange. You learn a word on Monday, and on Tuesday you hear it in a song, you see it on a sign, and a friend uses it in a message.",
+        "az": "Bəli! Çox qəribə hissdir. Sözü bazar ertəsi öyrənirsən, çərşənbə axşamı isə onu mahnıda eşidirsən, lövhədə görürsən, dostun da mesajında işlədir.",
+        "start": 17.89,
+        "end": 28.22
+      },
+      {
+        "speaker": "Maya",
+        "en": "People often say, \"What a coincidence!\" But scientists have a different idea.",
+        "az": "İnsanlar tez-tez “Nə təsadüf!” deyir. Amma alimlərin başqa fikri var.",
+        "start": 28.62,
+        "end": 33.89
+      },
+      {
+        "speaker": "Leo",
+        "en": "Right. It probably isn't a coincidence at all. The word was always there. You just didn't notice it before.",
+        "az": "Düzdür. Yəqin ki, bu heç təsadüf deyil. Söz həmişə orada idi. Sadəcə əvvəllər onu fərqinə varmırdın.",
+        "start": 34.29,
+        "end": 41.24
+      },
+      {
+        "speaker": "Maya",
+        "en": "Exactly. After you learn a word, it becomes familiar. Your brain starts to pay attention to it. So when the word appears again, you suddenly see it.",
+        "az": "Elədir. Sözü öyrənəndən sonra o, tanış olur. Beynin ona diqqət yetirməyə başlayır. Ona görə də söz yenidən çıxanda onu birdən görürsən.",
+        "start": 41.63,
+        "end": 51.47
+      },
+      {
+        "speaker": "Leo",
+        "en": "There's even a name for this pattern. Some people call it the \"frequency illusion.\" In simple words: when something is new and interesting, you start to notice it more often.",
+        "az": "Bu qanunauyğunluğun hətta adı da var. Bəziləri ona “tezlik illüziyası” deyir. Sadə dillə: bir şey yeni və maraqlı olanda onu daha tez-tez fərqinə varırsan.",
+        "start": 51.86,
+        "end": 62.09
+      },
+      {
+        "speaker": "Maya",
+        "en": "That happened to me last month. I learned the word \"cozy.\" I thought it was a little unusual. Then, in one week, I saw it in a shop, in a book, and in a message from a friend.",
+        "az": "Keçən ay mənimlə də belə oldu. “Cozy” sözünü öyrəndim. Bir az qeyri-adi söz kimi gəldi. Sonra bir həftə ərzində onu mağazada, kitabda və dostumun mesajında gördüm.",
+        "start": 62.48,
+        "end": 74.05
+      },
+      {
+        "speaker": "Leo",
+        "en": "The same thing happened to me with the word \"deadline.\" After I learned it, it seemed to appear everywhere — at work, online, even in a film.",
+        "az": "Mənimlə də “deadline” sözü ilə eyni şey oldu. Öyrənəndən sonra sanki hər yerdə çıxırdı: işdə, internetdə, hətta filmdə.",
+        "start": 74.44,
+        "end": 83.98
+      },
+      {
+        "speaker": "Maya",
+        "en": "So why does this happen? Our brains cannot focus on everything. Every day we see and hear thousands of words. We only keep the ones that feel important.",
+        "az": "Bəs bu niyə baş verir? Beynimiz hər şeyə diqqətini yönəldə bilmir. Hər gün minlərlə söz görür və eşidirik. Yalnız vacib görünənləri saxlayırıq.",
+        "start": 84.36,
+        "end": 95.34
+      },
+      {
+        "speaker": "Leo",
+        "en": "And a new word feels important. So your brain says, \"Hey, look! There it is again.\" It isn't magic. It's just your attention.",
+        "az": "Yeni söz isə vacib görünür. Ona görə beynin deyir: “Hey, bax! Yenə odur.” Bu sehr deyil. Sadəcə sənin diqqətindir.",
+        "start": 95.72,
+        "end": 104.01
+      },
+      {
+        "speaker": "Maya",
+        "en": "That's good news for English learners. When you learn a new word, don't worry if you forget it at first. If you keep your eyes and ears open, life will remind you.",
+        "az": "Bu, ingilis dili öyrənənlər üçün yaxşı xəbərdir. Yeni söz öyrənəndə, əvvəlcə unutsan belə narahat olma. Gözlərini və qulaqlarını açıq saxlasan, həyat özü sənə xatırladacaq.",
+        "start": 104.41,
+        "end": 114.29
+      },
+      {
+        "speaker": "Leo",
+        "en": "Yes. The more you notice a word, the more familiar it becomes. And soon it feels like a word you've always known.",
+        "az": "Bəli. Bir sözü nə qədər çox fərqinə varsan, o, bir o qədər tanış olur. Tezliklə həmişə bildiyin söz kimi hiss olunur.",
+        "start": 114.68,
+        "end": 122.01
+      },
+      {
+        "speaker": "Maya",
+        "en": "So the next time a new word appears again and again, smile. It means your brain is doing its job.",
+        "az": "Yəni növbəti dəfə yeni söz təkrar-təkrar qarşına çıxanda gülümsə. Bu, beyninin öz işini gördüyü deməkdir.",
+        "start": 122.4,
+        "end": 129.59
+      },
+      {
+        "speaker": "Leo",
+        "en": "Now let's look at today's new words. I'll say the word, and Maya will give a short meaning and an example.",
+        "az": "İndi bugünkü yeni sözlərə baxaq. Mən sözü deyəcəyəm, Maya isə qısa mənasını və nümunəsini verəcək.",
+        "start": 130.22,
+        "end": 136.48
+      },
+      {
+        "speaker": "Maya",
+        "en": "The first word is coincidence. A coincidence is when two things happen at the same time, but nobody planned it. Example: It was a coincidence that we wore the same jacket.",
+        "az": "Birinci söz: coincidence (təsadüf). Təsadüf iki şeyin eyni vaxtda, heç kim planlamadan baş verməsidir. Nümunə: Eyni gödəkçəni geyinməyimiz təsadüf idi.",
+        "start": 136.87,
+        "end": 148.83
+      },
+      {
+        "speaker": "Leo",
+        "en": "Notice. To notice something means to see it, or to become aware of it. Example: Did you notice the new sign on the door?",
+        "az": "Notice (fərqinə varmaq). Bir şeyi fərqinə varmaq onu görmək və ya ondan xəbərdar olmaq deməkdir. Nümunə: Qapıdakı yeni lövhəni fərqinə vardın?",
+        "start": 149.22,
+        "end": 157.36
+      },
+      {
+        "speaker": "Maya",
+        "en": "Familiar. If something is familiar, you know it because you have seen or heard it before. Example: That song sounds familiar, but I don't remember the name.",
+        "az": "Familiar (tanış). Bir şey tanışdırsa, onu əvvəllər gördüyün və ya eşitdiyin üçün bilirsən. Nümunə: Bu mahnı tanış gəlir, amma adını xatırlamıram.",
+        "start": 157.74,
+        "end": 168.65
+      },
+      {
+        "speaker": "Leo",
+        "en": "Pattern. A pattern is something that happens again and again in the same way. Example: I saw a pattern: I always feel tired after a long meeting.",
+        "az": "Pattern (qanunauyğunluq). Qanunauyğunluq eyni şəkildə təkrar-təkrar baş verən şeydir. Nümunə: Bir qanunauyğunluq gördüm: uzun iclasdan sonra həmişə yorğun oluram.",
+        "start": 169.03,
+        "end": 179.39
+      },
+      {
+        "speaker": "Maya",
+        "en": "Realize. To realize something means to suddenly understand it. Example: I didn't realize the shop was closed on Sunday.",
+        "az": "Realize (anlamaq). Bir şeyi anlamaq onu birdən başa düşmək deməkdir. Nümunə: Mağazanın bazar günü bağlı olduğunu anlamamışdım.",
+        "start": 179.78,
+        "end": 188.95
+      },
+      {
+        "speaker": "Leo",
+        "en": "Attention. Attention is when you carefully look at, listen to, or think about something. Example: Please give this question your full attention.",
+        "az": "Attention (diqqət). Diqqət bir şeyə diqqətlə baxmaq, qulaq asmaq və ya onun haqqında düşünməkdir. Nümunə: Xahiş edirəm, bu suala tam diqqət yetir.",
+        "start": 189.33,
+        "end": 199.25
+      },
+      {
+        "speaker": "Maya",
+        "en": "Unusual. If something is unusual, it is not common, or it is a little strange. Example: It's unusual for him to be late.",
+        "az": "Unusual (qeyri-adi). Bir şey qeyri-adidirsə, o, adi deyil və ya bir az qəribədir. Nümunə: Onun gecikməsi qeyri-adi haldır.",
+        "start": 199.63,
+        "end": 209.63
+      },
+      {
+        "speaker": "Leo",
+        "en": "Focus. To focus means to give all your attention to one thing. Example: I need to focus on this email for five minutes.",
+        "az": "Focus (diqqətini yönəltmək). Diqqətini yönəltmək bütün diqqətini bir şeyə vermək deməkdir. Nümunə: Beş dəqiqə bu e-poçta diqqətimi yönəltməliyəm.",
+        "start": 210.02,
+        "end": 219.03
+      },
+      {
+        "speaker": "Maya",
+        "en": "And the last word is remind. To remind someone means to help them remember something. Example: Can you remind me to call my sister?",
+        "az": "Və sonuncu söz: remind (xatırlatmaq). Kiməsə xatırlatmaq ona nəyisə yadda saxlamağa kömək etməkdir. Nümunə: Bacıma zəng etməyi mənə xatırlada bilərsən?",
+        "start": 219.42,
+        "end": 229.1
+      },
+      {
+        "speaker": "Leo",
+        "en": "That's all for today. Listen again if you want, and try to notice these words in real life.",
+        "az": "Bu günlük bu qədər. İstəsən yenidən qulaq as və bu sözləri real həyatda fərqinə varmağa çalış.",
+        "start": 229.65,
+        "end": 234.9
+      },
+      {
+        "speaker": "Maya",
+        "en": "Thanks for listening to the Ingri English Podcast. See you next time!",
+        "az": "Ingri English Podcast-a qulaq asdığın üçün təşəkkürlər. Növbəti dəfəyə qədər!",
+        "start": 235.29,
+        "end": 239.36
+      }
+    ],
+    "glossary": [
+      {
+        "en": "coincidence",
+        "az": "təsadüf",
+        "ipa": "/kəʊˈɪnsɪdəns/",
+        "example": "It was a coincidence that we wore the same jacket."
+      },
+      {
+        "en": "notice",
+        "az": "fərqinə varmaq",
+        "ipa": "/ˈnəʊtɪs/",
+        "example": "Did you notice the new sign on the door?"
+      },
+      {
+        "en": "familiar",
+        "az": "tanış",
+        "ipa": "/fəˈmɪliə/",
+        "example": "That song sounds familiar, but I don't remember the name."
+      },
+      {
+        "en": "pattern",
+        "az": "qanunauyğunluq",
+        "ipa": "/ˈpætən/",
+        "example": "I saw a pattern: I always feel tired after a long meeting."
+      },
+      {
+        "en": "realize",
+        "az": "anlamaq, dərk etmək",
+        "ipa": "/ˈriːəlaɪz/",
+        "example": "I didn't realize the shop was closed on Sunday."
+      },
+      {
+        "en": "attention",
+        "az": "diqqət",
+        "ipa": "/əˈtenʃən/",
+        "example": "Please give this question your full attention."
+      },
+      {
+        "en": "unusual",
+        "az": "qeyri-adi",
+        "ipa": "/ʌnˈjuːʒuəl/",
+        "example": "It's unusual for him to be late."
+      },
+      {
+        "en": "focus",
+        "az": "diqqətini yönəltmək",
+        "ipa": "/ˈfəʊkəs/",
+        "example": "I need to focus on this email for five minutes."
+      },
+      {
+        "en": "remind",
+        "az": "xatırlatmaq",
+        "ipa": "/rɪˈmaɪnd/",
+        "example": "Can you remind me to call my sister?"
+      }
+    ],
+    "quiz": [
+      {
+        "prompt": "Why do we suddenly see a new word everywhere?",
+        "promptAz": "Yeni sözü niyə birdən hər yerdə görürük?",
+        "options": [
+          "People start using it more",
+          "Our brain starts to notice it",
+          "It is a coincidence every time",
+          "The word is new in English"
+        ],
+        "answer": 1,
+        "explain": "The word was always there; our attention changed.",
+        "explainAz": "Söz həmişə orada idi, sadəcə diqqətimiz dəyişdi."
+      },
+      {
+        "prompt": "What do some people call this pattern?",
+        "promptAz": "Bəziləri bu qanunauyğunluğa nə deyir?",
+        "options": [
+          "The memory trick",
+          "The word magic",
+          "The frequency illusion",
+          "The learning curve"
+        ],
+        "answer": 2,
+        "explain": "It is called the frequency illusion.",
+        "explainAz": "Buna tezlik illüziyası deyilir."
+      },
+      {
+        "prompt": "Which word did Maya learn last month?",
+        "promptAz": "Maya keçən ay hansı sözü öyrəndi?",
+        "options": [
+          "cozy",
+          "deadline",
+          "pattern",
+          "focus"
+        ],
+        "answer": 0,
+        "explain": "Maya learned \"cozy\"; Leo learned \"deadline\".",
+        "explainAz": "Maya “cozy”, Leo isə “deadline” sözünü öyrənib."
+      },
+      {
+        "prompt": "Why can't our brains keep every word we hear?",
+        "promptAz": "Beynimiz niyə eşitdiyimiz hər sözü saxlaya bilmir?",
+        "options": [
+          "Words are too long",
+          "It cannot focus on everything",
+          "We sleep too little",
+          "We hear only a few words a day"
+        ],
+        "answer": 1,
+        "explain": "We see and hear thousands of words, so the brain keeps only the important ones.",
+        "explainAz": "Minlərlə söz eşidirik, beyin yalnız vacibləri saxlayır."
+      },
+      {
+        "prompt": "What should you do if you forget a new word at first?",
+        "promptAz": "Yeni sözü əvvəlcə unutsan, nə etməlisən?",
+        "options": [
+          "Stop learning it",
+          "Worry about it",
+          "Keep your eyes and ears open",
+          "Learn a different word"
+        ],
+        "answer": 2,
+        "explain": "Life will remind you if you keep your eyes and ears open.",
+        "explainAz": "Gözlərini və qulaqlarını açıq saxlasan, həyat özü xatırladacaq."
+      }
+    ]
+  },
+  {
+    "slug": "why-you-cant-tickle-yourself",
+    "title": "Why You Can't Tickle Yourself",
+    "titleAz": "Niyə özünü gıdıqlaya bilmirsən?",
+    "level": "B1",
+    "alsoFor": [
+      "A2",
+      "B2"
+    ],
+    "minutes": 4,
+    "durationSec": 251,
+    "accent": "peach",
+    "order": -6.8,
+    "audioUrl": "/audio/podcasts/why-you-cant-tickle-yourself.mp3",
+    "transcriptAvailable": true,
+    "publishedAt": "2026-11-23T08:00:00.000Z",
+    "summary": "Maya and Leo explain a surprising fact about the brain: you cannot tickle yourself because your brain predicts your own movements.",
+    "summaryAz": "Maya və Leo beyinlə bağlı maraqlı faktı izah edir: özünü gıdıqlaya bilmirsən, çünki beynin öz hərəkətlərini qabaqcadan bilir.",
+    "sentences": [
+      {
+        "speaker": "Maya",
+        "en": "Hello, and welcome back to the Ingri English Podcast. I'm Maya.",
+        "az": "Salam, Ingri English Podcast-a yenidən xoş gəldin. Mən Mayayam.",
+        "start": 0.0,
+        "end": 4.91
+      },
+      {
+        "speaker": "Leo",
+        "en": "And I'm Leo. Today's question is a little funny... but the science behind it is serious.",
+        "az": "Mən də Leo. Bugünkü sual bir az gülməlidir... amma arxasındakı elm ciddidir.",
+        "start": 5.31,
+        "end": 11.26
+      },
+      {
+        "speaker": "Maya",
+        "en": "Why can't you tickle yourself?",
+        "az": "Niyə özünü gıdıqlaya bilmirsən?",
+        "start": 11.65,
+        "end": 13.69
+      },
+      {
+        "speaker": "Leo",
+        "en": "I've tried. It never works. When a friend tickles me, I laugh at once. But when I try to tickle myself... nothing.",
+        "az": "Yoxlamışam. Heç vaxt alınmır. Dostum məni gıdıqlayanda dərhal gülürəm. Amma özümü gıdıqlamağa çalışanda... heç nə.",
+        "start": 14.08,
+        "end": 23.42
+      },
+      {
+        "speaker": "Maya",
+        "en": "You're not alone. Scientists have studied this for years. And the answer is in your brain.",
+        "az": "Tək deyilsən. Alimlər bunu illərdir öyrənir. Cavab isə beynindədir.",
+        "start": 23.81,
+        "end": 29.97
+      },
+      {
+        "speaker": "Leo",
+        "en": "Here's the idea. Your brain is very good at making predictions. Before you move, it already knows what will happen.",
+        "az": "Fikir belədir: beynin proqnoz verməkdə çox yaxşıdır. Sən hərəkət etməmişdən əvvəl o, nə olacağını artıq bilir.",
+        "start": 30.36,
+        "end": 37.95
+      },
+      {
+        "speaker": "Maya",
+        "en": "Yes. When you move your own hand, your brain can predict the movement. It knows where your fingers will go, and how the touch will feel.",
+        "az": "Bəli. Öz əlini tərpədəndə beynin hərəkəti qabaqcadan görə bilir. Barmaqlarının hara gedəcəyini və toxunuşun necə hiss olunacağını bilir.",
+        "start": 38.33,
+        "end": 46.9
+      },
+      {
+        "speaker": "Leo",
+        "en": "So when the touch comes, it isn't a surprise. Your brain expected it. And without surprise, there is no strong reaction — and no laugh.",
+        "az": "Ona görə toxunuş gələndə bu, təəccüb olmur. Beynin onu gözləyirdi. Təəccüb olmadan isə güclü reaksiya da olmur, gülüş də.",
+        "start": 47.29,
+        "end": 56.24
+      },
+      {
+        "speaker": "Maya",
+        "en": "But when someone else tickles you, your brain cannot predict their movement so well. The touch is a surprise. That's why you laugh, even if you don't want to.",
+        "az": "Amma başqası səni gıdıqlayanda beynin onun hərəkətini o qədər yaxşı proqnozlaşdıra bilmir. Toxunuş gözlənilməz olur. Ona görə istəməsən belə gülürsən.",
+        "start": 56.64,
+        "end": 66.59
+      },
+      {
+        "speaker": "Leo",
+        "en": "There's a nice experiment for this. In some studies, people used a machine to tickle their own hand, but with a short delay. The touch came a little later than they expected.",
+        "az": "Bununla bağlı maraqlı bir təcrübə var. Bəzi araşdırmalarda insanlar öz əllərini maşınla gıdıqlayıblar, amma qısa gecikmə ilə. Toxunuş gözlədiklərindən bir az gec gəlib.",
+        "start": 66.98,
+        "end": 77.28
+      },
+      {
+        "speaker": "Maya",
+        "en": "And then? Could they feel it?",
+        "az": "Bəs sonra? Hiss edə bildilər?",
+        "start": 77.67,
+        "end": 80.0
+      },
+      {
+        "speaker": "Leo",
+        "en": "Yes! With that small delay, the tickle suddenly worked. The brain was no longer completely sure. The touch felt new again.",
+        "az": "Bəli! O kiçik gecikmə ilə gıdıqlama birdən işlədi. Beyin artıq tam əmin deyildi. Toxunuş yenidən yeni kimi hiss olundu.",
+        "start": 80.39,
+        "end": 89.21
+      },
+      {
+        "speaker": "Maya",
+        "en": "So it's not only about the skin. It's about control. When you are in control, your brain automatically turns the feeling down.",
+        "az": "Deməli, məsələ təkcə dəridə deyil. Məsələ nəzarətdədir. Nəzarət səndə olanda beynin hissi avtomatik olaraq azaldır.",
+        "start": 89.61,
+        "end": 98.2
+      },
+      {
+        "speaker": "Leo",
+        "en": "Exactly. Your brain does this all the time, not only with tickling. When you walk, you don't think about every step. Your brain is already aware of the movement, so it doesn't surprise you.",
+        "az": "Tamamilə. Beynin bunu təkcə gıdıqlamada yox, hər zaman edir. Yeriyəndə hər addımı düşünmürsən. Beynin hərəkətdən artıq xəbərdardır, ona görə səni təəccübləndirmir.",
+        "start": 98.59,
+        "end": 110.21
+      },
+      {
+        "speaker": "Maya",
+        "en": "It's like a little signal inside your head that says, \"This is me. I did this.\" That's useful. If every self-touch felt huge, life would be very tiring.",
+        "az": "Bu, başının içində “Bu mənəm. Bunu mən etdim” deyən kiçik bir siqnal kimidir. Bu faydalıdır. Özünə hər toxunuş böyük hiss olunsaydı, həyat çox yorucu olardı.",
+        "start": 110.59,
+        "end": 121.08
+      },
+      {
+        "speaker": "Leo",
+        "en": "True. Imagine laughing every time you washed your face!",
+        "az": "Doğrudur. Təsəvvür et, hər dəfə üzünü yuyanda gülürsən!",
+        "start": 121.46,
+        "end": 126.02
+      },
+      {
+        "speaker": "Maya",
+        "en": "No, thank you. So the next time someone tries to tickle you, remember: your laugh is not only in your skin. It's in your brain's love of surprise.",
+        "az": "Yox, sağ ol. Deməli, növbəti dəfə kimsə səni gıdıqlamağa çalışanda yadına sal: gülüşün təkcə dərində deyil. O, beyninin təəccübü sevməsindədir.",
+        "start": 126.41,
+        "end": 137.52
+      },
+      {
+        "speaker": "Leo",
+        "en": "And if you're curious, try this at home — not the tickling, maybe, but notice how different a surprise touch feels from a touch you expect.",
+        "az": "Maraqlanırsansa, evdə yoxla: gıdıqlamanı yox, bəlkə, amma gözlənilməz toxunuşun gözlədiyin toxunuşdan necə fərqli hiss olunduğunu fərqinə var.",
+        "start": 137.9,
+        "end": 146.14
+      },
+      {
+        "speaker": "Maya",
+        "en": "Now let's look at today's new words. I'll say each word, and Leo will give a short meaning and an example.",
+        "az": "İndi bugünkü yeni sözlərə baxaq. Mən hər sözü deyəcəyəm, Leo isə qısa mənasını və nümunəsini verəcək.",
+        "start": 146.75,
+        "end": 153.54
+      },
+      {
+        "speaker": "Leo",
+        "en": "Tickle. To tickle someone means to touch their skin in a light way that often makes them laugh. Example: My little brother tried to tickle my feet.",
+        "az": "Tickle (gıdıqlamaq). Kimisə gıdıqlamaq onun dərisinə yüngülcə toxunmaqdır, bu da adətən onu güldürür. Nümunə: Balaca qardaşım ayaqlarımı gıdıqlamağa çalışdı.",
+        "start": 153.92,
+        "end": 163.35
+      },
+      {
+        "speaker": "Maya",
+        "en": "Predict. To predict means to say what you think will happen in the future. Example: It's hard to predict the weather in April.",
+        "az": "Predict (proqnozlaşdırmaq). Proqnozlaşdırmaq gələcəkdə nə olacağını düşündüyünü demək deməkdir. Nümunə: Aprel ayında havanı proqnozlaşdırmaq çətindir.",
+        "start": 163.73,
+        "end": 172.4
+      },
+      {
+        "speaker": "Leo",
+        "en": "Expect. To expect something means to think that it will happen. Example: I expect the bus to arrive at eight.",
+        "az": "Expect (gözləmək). Bir şeyi gözləmək onun baş verəcəyini düşünmək deməkdir. Nümunə: Avtobusun saat səkkizdə gələcəyini gözləyirəm.",
+        "start": 172.79,
+        "end": 180.69
+      },
+      {
+        "speaker": "Maya",
+        "en": "Surprise. A surprise is something you did not expect. Example: The party was a complete surprise.",
+        "az": "Surprise (təəccüb, sürpriz). Sürpriz gözləmədiyin bir şeydir. Nümunə: Ziyafət tam bir sürpriz idi.",
+        "start": 181.07,
+        "end": 189.05
+      },
+      {
+        "speaker": "Leo",
+        "en": "Reaction. A reaction is what you do or feel after something happens. Example: Her first reaction was to smile.",
+        "az": "Reaction (reaksiya). Reaksiya bir şey baş verəndən sonra etdiyin və ya hiss etdiyin şeydir. Nümunə: Onun ilk reaksiyası gülümsəmək oldu.",
+        "start": 189.43,
+        "end": 197.88
+      },
+      {
+        "speaker": "Maya",
+        "en": "Experiment. An experiment is a test that you do to learn something or to find an answer. Example: We did a simple experiment in science class.",
+        "az": "Experiment (təcrübə). Təcrübə nəyisə öyrənmək və ya cavab tapmaq üçün etdiyin sınaqdır. Nümunə: Elm dərsində sadə bir təcrübə etdik.",
+        "start": 198.26,
+        "end": 208.7
+      },
+      {
+        "speaker": "Leo",
+        "en": "Automatically. If something happens automatically, it happens by itself, without you thinking about it. Example: I automatically lock the door when I leave.",
+        "az": "Automatically (avtomatik olaraq). Bir şey avtomatik baş verirsə, sən düşünmədən özü-özünə olur. Nümunə: Çıxanda qapını avtomatik olaraq bağlayıram.",
+        "start": 209.08,
+        "end": 219.1
+      },
+      {
+        "speaker": "Maya",
+        "en": "Control. To have control means to be able to guide or decide what happens. Example: He learned to control his nerves before the talk.",
+        "az": "Control (nəzarət). Nəzarət nə baş verəcəyini idarə edə və ya qərar verə bilmək deməkdir. Nümunə: O, çıxışdan əvvəl həyəcanını idarə etməyi öyrəndi.",
+        "start": 219.49,
+        "end": 229.52
+      },
+      {
+        "speaker": "Leo",
+        "en": "And the last word is curious. If you are curious, you want to learn or know more about something. Example: The children were curious about the new museum.",
+        "az": "Və sonuncu söz: curious (maraqlanan). Maraqlanırsansa, bir şey haqqında daha çox öyrənmək və ya bilmək istəyirsən. Nümunə: Uşaqlar yeni muzeylə maraqlanırdılar.",
+        "start": 229.92,
+        "end": 240.45
+      },
+      {
+        "speaker": "Maya",
+        "en": "That's all for this episode. Listen again if you like, and try to use two or three of these words today.",
+        "az": "Bu epizod üçün bu qədər. İstəsən yenidən qulaq as və bu gün bu sözlərdən iki-üçünü işlətməyə çalış.",
+        "start": 241.0,
+        "end": 247.07
+      },
+      {
+        "speaker": "Leo",
+        "en": "Thanks for listening to the Ingri English Podcast. See you next time!",
+        "az": "Ingri English Podcast-a qulaq asdığın üçün təşəkkürlər. Növbəti dəfəyə qədər!",
+        "start": 247.47,
+        "end": 251.35
+      }
+    ],
+    "glossary": [
+      {
+        "en": "tickle",
+        "az": "gıdıqlamaq",
+        "ipa": "/ˈtɪkəl/",
+        "example": "My little brother tried to tickle my feet."
+      },
+      {
+        "en": "predict",
+        "az": "qabaqcadan demək, proqnozlaşdırmaq",
+        "ipa": "/prɪˈdɪkt/",
+        "example": "It's hard to predict the weather in April."
+      },
+      {
+        "en": "expect",
+        "az": "gözləmək",
+        "ipa": "/ɪkˈspekt/",
+        "example": "I expect the bus to arrive at eight."
+      },
+      {
+        "en": "surprise",
+        "az": "təəccüb, gözlənilməz hadisə",
+        "ipa": "/səˈpraɪz/",
+        "example": "The party was a complete surprise."
+      },
+      {
+        "en": "reaction",
+        "az": "reaksiya",
+        "ipa": "/riˈækʃən/",
+        "example": "Her first reaction was to smile."
+      },
+      {
+        "en": "experiment",
+        "az": "təcrübə",
+        "ipa": "/ɪkˈsperɪmənt/",
+        "example": "We did a simple experiment in science class."
+      },
+      {
+        "en": "automatically",
+        "az": "avtomatik olaraq",
+        "ipa": "/ˌɔːtəˈmætɪkli/",
+        "example": "I automatically lock the door when I leave."
+      },
+      {
+        "en": "control",
+        "az": "nəzarət, idarə etmək",
+        "ipa": "/kənˈtrəʊl/",
+        "example": "He learned to control his nerves before the talk."
+      },
+      {
+        "en": "curious",
+        "az": "maraqlı, maraq göstərən",
+        "ipa": "/ˈkjʊəriəs/",
+        "example": "The children were curious about the new museum."
+      }
+    ],
+    "quiz": [
+      {
+        "prompt": "Why doesn't it work when you tickle yourself?",
+        "promptAz": "Özünü gıdıqlayanda niyə alınmır?",
+        "options": [
+          "Your skin is too thick",
+          "Your brain predicts the touch",
+          "Your hands are too cold",
+          "You are not ticklish"
+        ],
+        "answer": 1,
+        "explain": "The brain knows what will happen, so there is no surprise.",
+        "explainAz": "Beyin nə olacağını bilir, ona görə təəccüb yaranmır."
+      },
+      {
+        "prompt": "Without surprise, there is...",
+        "promptAz": "Təəccüb olmadan...",
+        "options": [
+          "a stronger laugh",
+          "no strong reaction",
+          "more control",
+          "a short delay"
+        ],
+        "answer": 1,
+        "explain": "No surprise means no strong reaction and no laugh.",
+        "explainAz": "Təəccüb yoxdursa, güclü reaksiya və gülüş də yoxdur."
+      },
+      {
+        "prompt": "In the experiment, what made self-tickling work?",
+        "promptAz": "Təcrübədə özünü gıdıqlamağı nə işə saldı?",
+        "options": [
+          "A short delay",
+          "A friend's help",
+          "Music",
+          "Closing the eyes"
+        ],
+        "answer": 0,
+        "explain": "With a small delay the brain was no longer sure, so the touch felt new.",
+        "explainAz": "Kiçik gecikmə ilə beyin əmin olmadı və toxunuş yeni kimi hiss olundu."
+      },
+      {
+        "prompt": "When you are in control, your brain automatically...",
+        "promptAz": "Nəzarət səndə olanda beynin avtomatik olaraq...",
+        "options": [
+          "turns the feeling up",
+          "turns the feeling down",
+          "stops working",
+          "makes you laugh"
+        ],
+        "answer": 1,
+        "explain": "It turns the feeling down.",
+        "explainAz": "Hissi azaldır."
+      },
+      {
+        "prompt": "Why is this brain signal useful?",
+        "promptAz": "Bu beyin siqnalı niyə faydalıdır?",
+        "options": [
+          "It helps us sleep",
+          "Otherwise every self-touch would feel huge",
+          "It makes us run faster",
+          "It helps us remember words"
+        ],
+        "answer": 1,
+        "explain": "If every self-touch felt huge, life would be very tiring.",
+        "explainAz": "Özünə hər toxunuş böyük hiss olunsaydı, həyat çox yorucu olardı."
+      }
+    ]
+  },
+  {
     "slug": "why-we-dream",
     "title": "Why Do We Dream?",
     "titleAz": "Niyə yuxu görürük?",

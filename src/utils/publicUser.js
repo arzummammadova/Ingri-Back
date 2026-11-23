@@ -31,6 +31,11 @@ export function publicUser(user) {
     locale: user.locale || "az",
     lastActiveDate: user.lastActiveDate || "",
     timezone: user.timezone || "Asia/Baku",
+    reminders: {
+      email: Boolean(user.reminders?.email),
+      asked: Boolean(user.reminders?.asked),
+      hour: typeof user.reminders?.hour === "number" ? user.reminders.hour : 19,
+    },
     preferences: {
       theme: user.preferences?.theme || "light",
       accent: user.preferences?.accent || "ink",

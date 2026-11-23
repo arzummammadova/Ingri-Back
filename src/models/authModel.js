@@ -68,6 +68,14 @@ const userSchema = new mongoose.Schema(
     dailyMinutes: { type: [dailySchema], default: [] },
     city: { type: String, default: "" },
     locale: { type: String, enum: ["az", "en", "ru"], default: "az" },
+    /** Daily study reminder by email (opt-in; `asked` = the user answered the prompt once). */
+    reminders: {
+      email: { type: Boolean, default: false },
+      asked: { type: Boolean, default: false },
+      hour: { type: Number, min: 0, max: 23, default: 19 },
+      lastSentDate: { type: String, default: "" },
+      updatedAt: { type: Date },
+    },
   },
   { timestamps: true },
 );
